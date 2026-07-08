@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Performance Review · Valde — Edición Pre-Casado</title>
+<style>
+/* ============================================================
+   PERFORMANCE REVIEW · VALDE — TEMA / ESTILOS
+   No necesitas tocar nada aquí salvo que quieras cambiar colores.
+   ============================================================ */
+:root{
+  --bg:#ecf4ed;
+  --panel:#ffffff;
+  --panel-2:#f2f8f3;
+  --ink:#14321f;
+  --muted:#54705e;
+  --line:#d8e6db;
+  --accent:#009739;     /* verde Brasil */
+  --accent-2:#c99700;   /* amarillo/oro Brasil (legible) */
+  --warn:#e0a100;       /* ámbar */
+  --bad:#ef4444;        /* rojo */
+  --gold:#c99700;
+  --yellow:#FEDD00;     /* amarillo vivo (gradientes) */
+  --radius:18px;
+  --shadow:0 20px 60px rgba(0,0,0,.45);
+  --font:'Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:radial-gradient(1200px 800px at 70% -10%, #ffffff 0%, var(--bg) 55%);
+  color:var(--ink);font-family:var(--font);overflow:hidden;
+}
+
+/* ---------- Deck / Slides ---------- */
+#deck{position:fixed;top:36px;bottom:34px;left:0;right:0;}
+.slide{
+  position:absolute;inset:0;display:none;flex-direction:column;
+  padding:2.5vh 6vw;opacity:0;transition:opacity .45s ease;
+  animation:none;
+}
+.slide.active{display:flex;opacity:1;animation:slideIn .5s ease;}
+@keyframes slideIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+/* ---------- Barra superior corporativa ---------- */
+.topbar{
+  position:fixed;top:0;left:0;right:0;height:36px;z-index:50;
+  display:flex;align-items:center;gap:12px;padding:0 18px;
+  background:linear-gradient(90deg,#ffffff,var(--panel-2));
+  border-top:4px solid;border-image:linear-gradient(90deg,var(--accent) 60%,var(--yellow)) 1;
+  border-bottom:1px solid var(--line);font-size:13px;color:var(--muted);
+  letter-spacing:.5px;
+}
+.topbar .logo{display:flex;align-items:center;gap:8px;color:var(--ink);font-weight:700;letter-spacing:1px}
+.topbar .logo .dot{width:10px;height:10px;border-radius:3px;background:var(--accent);box-shadow:0 0 12px var(--accent)}
+.topbar .spacer{flex:1}
+.topbar .confidential{
+  border:1px solid var(--bad);color:var(--bad);padding:2px 8px;border-radius:6px;
+  font-weight:700;font-size:10px;letter-spacing:1.5px;
+}
+
+/* ---------- Footer / progreso ---------- */
+.footer{
+  position:fixed;bottom:0;left:0;right:0;height:34px;z-index:50;
+  display:flex;align-items:center;gap:14px;padding:0 18px;
+  border-top:1px solid var(--line);background:#ffffff;font-size:13px;color:var(--muted);
+}
+.progress{flex:1;height:5px;border-radius:99px;background:var(--panel-2);overflow:hidden}
+.progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .4s}
+.counter{font-variant-numeric:tabular-nums;color:var(--ink);font-weight:600}
+.nav-btn{cursor:pointer;border:1px solid var(--line);background:var(--panel);color:var(--ink);
+  border-radius:8px;width:30px;height:24px;display:grid;place-items:center;font-size:13px}
+.nav-btn:hover{border-color:var(--accent)}
+
+/* ---------- Tipografía / componentes ---------- */
+.kicker{color:var(--accent);font-weight:800;letter-spacing:3px;font-size:16px;text-transform:uppercase;margin-bottom:10px}
+.kicker.warn{color:var(--warn)} .kicker.good{color:var(--accent-2)} .kicker.bad{color:var(--bad)}
+h1{font-size:74px;line-height:1.02;font-weight:800;letter-spacing:-1px}
+h2{font-size:48px;line-height:1.08;font-weight:800;letter-spacing:-.5px}
+h3{font-size:25px;font-weight:700}
+.sub{color:var(--muted);font-size:24px;margin-top:14px;max-width:60ch;line-height:1.5}
+.fill{color:var(--gold);font-style:italic}        /* texto a rellenar */
+.center{justify-content:center;align-items:center;text-align:center}
+.center .sub{margin-left:auto;margin-right:auto}
+
+/* badge / chips */
+.chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.chip{background:var(--panel);border:1px solid var(--line);border-radius:99px;padding:9px 18px;font-size:16px;color:var(--muted)}
+
+/* ---------- Tarjetas / grid KPI ---------- */
+.grid{display:grid;gap:18px;margin-top:auto;margin-bottom:auto}
+.g2{grid-template-columns:repeat(2,1fr)} .g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.card{
+  background:linear-gradient(180deg,var(--panel),var(--panel-2));
+  border:1px solid var(--line);border-radius:var(--radius);padding:24px;position:relative;overflow:hidden;
+  box-shadow:0 6px 20px rgba(31,41,55,.06);
+}
+.card .label{color:var(--muted);font-size:16px;font-weight:600;letter-spacing:.5px;text-transform:uppercase}
+.kpi{font-size:58px;font-weight:800;line-height:1;margin-top:10px;letter-spacing:-1px}
+.kpi.green{color:var(--accent-2)} .kpi.blue{color:var(--accent)} .kpi.gold{color:var(--gold)}
+.kpi.red{color:var(--bad)} .kpi.warn{color:var(--warn)}
+.kpi small{font-size:22px;color:var(--muted);font-weight:600}
+.delta{margin-top:10px;font-size:14px;font-weight:700}
+.delta.up{color:var(--accent-2)} .delta.down{color:var(--bad)}
+.card .note{color:var(--muted);font-size:16px;margin-top:8px;line-height:1.45}
+
+/* ---------- Quiz estilo concurso ---------- */
+.quiz-q{background:linear-gradient(180deg,var(--panel),var(--panel-2));border:2px solid var(--accent);border-radius:18px;box-shadow:0 8px 24px rgba(31,41,55,.1);padding:30px 40px;text-align:center;font-size:34px;font-weight:800;color:var(--ink);margin-top:14px;line-height:1.2}
+.quiz-ops{display:grid;grid-template-columns:1fr 1fr;gap:20px;flex:1;margin-top:24px;align-content:center}
+.quiz-op{display:flex;align-items:center;gap:20px;background:linear-gradient(180deg,var(--panel),var(--panel-2));border:2px solid var(--accent);border-radius:14px;padding:22px 28px;box-shadow:0 6px 18px rgba(31,41,55,.08)}
+.q-letter{flex-shrink:0;width:48px;height:48px;border-radius:50%;background:var(--gold);color:#1f2937;font-weight:800;font-size:24px;display:grid;place-items:center}
+.q-text{font-size:25px;font-weight:600;color:var(--ink)}
+
+/* ---------- Footage (videos) ---------- */
+.foot-wrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.footage-vid{max-height:58vh;max-width:88%;border-radius:16px;box-shadow:0 12px 32px rgba(31,41,55,.2);object-fit:contain;background:#000}
+
+/* ---------- Pull quote ---------- */
+.pquote{margin-top:22px;position:relative;text-align:center;padding-top:24px}
+.pquote::before{content:"\201C";position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:88px;line-height:1;color:var(--accent);opacity:.22;font-family:Georgia,'Times New Roman',serif}
+.pq-text{display:block;font-size:34px;font-style:italic;font-weight:800;color:var(--accent);line-height:1.2}
+.pq-by{display:block;margin-top:10px;font-size:17px;font-weight:600;color:var(--muted)}
+
+/* ---------- Galería de fotos (álbum) ---------- */
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;gap:18px;flex:1;margin-top:18px;min-height:0}
+.gal-item{background:var(--panel);border:1px solid var(--line);border-top:6px solid var(--accent);border-radius:14px;box-shadow:0 6px 18px rgba(31,41,55,.08);overflow:hidden;display:flex;flex-direction:column}
+.pilar-num{font-size:14px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--accent);text-align:center;padding:12px 0 4px}
+.gal-photo{flex:1;background-size:contain;background-repeat:no-repeat;background-position:center;background-color:var(--panel-2);min-height:0;margin:0 12px;border-radius:10px}
+.gal-cap{padding:12px 14px 16px;text-align:center;line-height:1.2}
+.pilar-name{font-size:24px;font-weight:800;color:var(--ink)}
+.pilar-desc{font-size:14px;color:var(--muted);margin-top:4px}
+.team-item{background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:0 6px 18px rgba(31,41,55,.08);overflow:hidden;display:flex;flex-direction:column}
+.team-item .gal-photo{margin:12px 12px 0}
+.team-cap{padding:14px 12px 18px;text-align:center;font-size:21px;font-weight:800;color:var(--ink)}
+
+/* ---------- Timeline de fotos chistosas ---------- */
+.ptl{position:relative;display:flex;justify-content:space-between;gap:12px;flex:1;margin-top:28px;padding:0 8px}
+.ptl::before{content:"";position:absolute;left:50px;right:50px;top:236px;height:4px;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:2px;z-index:0}
+.ptl-item{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;width:15.5%}
+.ptl-photo{width:100%;height:220px;border-radius:14px;background-size:cover;background-position:center;border:4px solid #fff;box-shadow:0 8px 22px rgba(31,41,55,.18)}
+.ptl-dot{width:18px;height:18px;border-radius:50%;background:var(--accent);border:3px solid #fff;box-shadow:0 0 0 2px var(--accent);margin:8px 0 12px}
+.ptl-cap{font-size:15px;color:var(--ink);font-weight:600;text-align:center;line-height:1.35}
+/* Variante grande (timeline de exes, 3 fotos) */
+.ptl.ptl-big{justify-content:center;gap:60px}
+.ptl.ptl-big::before{left:90px;right:90px;top:316px}
+.ptl.ptl-big .ptl-item{width:25%}
+.ptl.ptl-big .ptl-photo{height:300px}
+.ptl-name{font-size:26px;font-weight:800;color:var(--ink);margin-top:2px}
+.ptl-sub{font-size:15px;color:var(--gold);font-style:italic;margin-top:2px}
+
+/* ---------- Tarjetas del veredicto (grandes) ---------- */
+.verd-card{padding:40px 34px;display:flex;flex-direction:column;justify-content:center}
+.verd-card .label{font-size:18px;margin-bottom:6px}
+.verd-card .note{font-size:18px;margin-top:14px}
+
+/* ---------- Card de relaciones (grande, centrada) ---------- */
+.rel-card{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px 26px}
+.rel-card .label{font-size:22px;margin-bottom:6px}
+.rel-card .kpi{font-size:78px}
+.rel-card > .note{font-size:20px;margin-top:10px}
+.rel-card .ex-thumbs{justify-content:center}
+
+/* ---------- Thumbnails de exes (card Novias formales) ---------- */
+.ex-thumbs{display:flex;gap:11px;margin-top:18px;flex-wrap:wrap}
+.ex-thumb{display:flex;flex-direction:column;align-items:center;gap:7px}
+.ex-thumb-img{width:72px;height:72px;border-radius:12px;background-size:cover;background-position:center;border:2px solid var(--line)}
+.ex-thumb span{font-size:15px;color:var(--muted);font-weight:600}
+.ex-thumb.win .ex-thumb-img{border-color:var(--accent-2);border-width:3px}
+.ex-thumb.win span{color:var(--accent-2)}
+
+/* ---------- Análisis FODA ---------- */
+.foda{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:14px;flex:1;margin-top:12px}
+.foda-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 24px rgba(31,41,55,.07);padding:16px 28px;border-left:8px solid var(--accent);display:flex;flex-direction:column;justify-content:center}
+.foda-card.f{border-left-color:var(--accent-2)}
+.foda-card.o{border-left-color:var(--accent)}
+.foda-card.d{border-left-color:var(--warn)}
+.foda-card.a{border-left-color:var(--bad)}
+.foda-card h3{font-size:31px;font-weight:800;margin-bottom:10px}
+.foda-card.f h3{color:var(--accent-2)} .foda-card.o h3{color:var(--accent)}
+.foda-card.d h3{color:var(--warn)} .foda-card.a h3{color:var(--bad)}
+.foda-card ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.foda-card li{font-size:26px;line-height:1.25;color:var(--ink);padding-left:30px;position:relative}
+.foda-card li::before{content:"›";position:absolute;left:0;font-weight:800;color:var(--muted)}
+
+/* ---------- Funnel de conquista (dinámica) ---------- */
+.cf-stage{position:relative;flex:1;margin-top:18px;display:flex;flex-direction:column;justify-content:center}
+.cf-row{margin-bottom:18px;background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:0 4px 14px rgba(31,41,55,.06);padding:20px 30px;display:flex;align-items:center;gap:18px}
+.cf-step{width:44px;height:44px;flex-shrink:0;border-radius:50%;background:var(--accent);color:#fff;font-weight:800;display:grid;place-items:center;font-size:22px}
+.cf-lbl{flex:1;font-size:24px;font-weight:600;color:var(--ink)}
+.cf-val{font-size:28px;font-weight:800;color:var(--accent)}
+.cf-tac{position:absolute;right:0;top:2px;width:40%;height:62vh;background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 34px rgba(31,41,55,.14);overflow:hidden;display:flex;flex-direction:column}
+.cf-photo{width:100%;height:44vh;object-fit:contain;display:block;background-size:contain;background-repeat:no-repeat;background-position:center;background-color:var(--panel);flex-shrink:0}
+.cf-photo.ph{display:grid;place-items:center;background:repeating-linear-gradient(45deg,#eef6ef,#eef6ef 12px,#e0eee3 12px,#e0eee3 24px);color:var(--muted);text-align:center}
+.cf-ph-desc{color:var(--gold);font-style:italic;font-size:16px;margin-top:8px;padding:0 18px;max-width:30ch}
+.cf-tac-txt{padding:16px 26px;flex:1;display:flex;flex-direction:column;justify-content:center}
+.cf-tac-k{color:var(--accent);font-weight:800;letter-spacing:1px;font-size:19px;text-transform:uppercase}
+.cf-tac-txt h3{font-size:29px;margin-top:8px;color:var(--ink)}
+.cf-tac-txt p{color:var(--muted);font-size:20px;margin-top:8px;line-height:1.4}
+
+/* ---------- Reveal por fragmentos (flechas) ---------- */
+.frag{opacity:0;transform:translateY(16px) scale(.98);transition:opacity .45s ease,transform .45s ease}
+.frag.shown{opacity:1;transform:none}
+
+/* ---------- Tarjetas de agenda (más grandes) ---------- */
+.agenda-card{padding:42px;display:flex;flex-direction:column;justify-content:center}
+.agenda-card .label{font-size:18px}
+.agenda-card h3{font-size:27px;margin-top:0}
+.agenda-card .note{font-size:17px;margin-top:5px}
+.ag-num{font-size:42px;font-weight:900;color:var(--accent);min-width:44px;text-align:center;flex-shrink:0}
+
+/* ---------- Perfil estilo LinkedIn ---------- */
+.li-wrap{display:grid;grid-template-columns:1.15fr 1fr;gap:18px;flex:1;margin-top:4px;min-height:0;align-items:start}
+.li-card{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 6px 20px rgba(31,41,55,.06);overflow:hidden}
+.li-profile{position:relative;display:flex;flex-direction:column}
+.li-banner{height:104px;flex-shrink:0;background:linear-gradient(120deg,#00612a,#009739 55%,#FEDD00 130%);position:relative;overflow:hidden}
+.li-banner-txt{position:absolute;right:28px;top:50%;transform:translateY(-50%);font-size:46px;font-weight:900;color:#fff;letter-spacing:.5px;text-shadow:0 2px 10px rgba(0,0,0,.28);white-space:nowrap}
+.li-avatar{width:128px;height:128px;border-radius:50%;border:5px solid #fff;object-fit:cover;position:absolute;top:38px;left:32px;background:#dfe5ef}
+.li-body{padding:64px 36px 20px}
+.li-name{font-size:31px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:9px}
+.li-badge{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-size:14px;display:grid;place-items:center}
+.li-1er{font-size:17px;color:var(--muted);font-weight:600}
+.li-headline{font-size:23px;font-weight:700;color:var(--ink);margin-top:9px;line-height:1.3}
+.li-cargo-detail{font-size:15px;color:var(--muted);margin-top:6px;line-height:1.4}
+.li-realrole{font-size:14px;color:var(--muted);margin-top:7px;font-style:italic}
+.li-meta{font-size:16px;color:var(--muted);margin-top:10px}
+.li-link{color:var(--accent);font-weight:600}
+.li-conn{color:var(--accent);font-weight:700;font-size:16px;margin-top:7px}
+.li-orgs{display:flex;flex-wrap:wrap;gap:18px;margin-top:12px}
+.li-org{display:flex;align-items:center;gap:9px;font-size:16px;font-weight:600;color:var(--ink)}
+.li-org .li-sq{width:26px;height:26px;border-radius:6px;background:var(--panel-2);border:1px solid var(--line);display:grid;place-items:center;font-size:15px}
+.li-btns{display:flex;gap:12px;margin-top:14px}
+.li-btn{border-radius:99px;padding:10px 24px;font-size:16px;font-weight:700;cursor:default;border:1.5px solid var(--accent);background:#fff;color:var(--accent)}
+.li-btn.primary{background:var(--accent);color:#fff}
+.li-side{display:flex;flex-direction:column;gap:13px;min-height:0}
+.li-side .li-card{padding:15px 22px}
+.li-h3{font-size:20px;font-weight:800;color:var(--ink);margin-bottom:8px}
+.li-about{font-size:14px;line-height:1.45;color:var(--ink)}
+.li-exp{display:flex;gap:13px;align-items:flex-start}
+.li-exp-ico{width:40px;height:40px;border-radius:10px;background:var(--panel-2);border:1px solid var(--line);display:grid;place-items:center;font-size:21px;flex-shrink:0}
+.li-exp b{font-size:18px;color:var(--ink)}
+.li-exp-sub{font-size:14px;color:var(--muted);margin-top:2px}
+.li-exp-note{font-size:15px;color:var(--ink);margin-top:6px;line-height:1.45}
+.li-exp-metric{display:inline-block;margin-top:5px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.35);color:var(--bad);font-weight:800;font-size:15px;padding:5px 12px;border-radius:99px}
+.li-exp-metric span{font-weight:600;color:var(--muted)}
+.li-exp-metric.good{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.4);color:#15803d}
+.li-metrics{display:flex;gap:8px;flex-wrap:wrap}
+.li-steps{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.li-steps span{background:var(--panel-2);border:1px solid var(--line);color:var(--ink);font-size:13px;font-weight:600;padding:4px 10px;border-radius:7px}
+
+/* ---------- Placeholders de foto ---------- */
+.photo,.photo-anim{
+  border-radius:var(--radius);display:grid;place-items:center;text-align:center;
+  color:var(--muted);position:relative;min-height:0;
+}
+.photo{border:2px dashed var(--line);background:repeating-linear-gradient(45deg,#eef6ef,#eef6ef 12px,#e0eee3 12px,#e0eee3 24px)}
+.photo-anim{border:2px dashed var(--accent);background:rgba(59,130,246,.06)}
+.photo .ph-inner,.photo-anim .ph-inner{padding:20px}
+.photo .ph-ico{font-size:46px;opacity:.6}
+.photo-anim .ph-ico{font-size:46px}
+.ph-tag{display:inline-block;margin-top:10px;font-size:12px;letter-spacing:1px;text-transform:uppercase;font-weight:700}
+.photo .ph-tag{color:var(--muted)} .photo-anim .ph-tag{color:var(--accent)}
+.ph-desc{margin-top:8px;color:var(--gold);font-style:italic;font-size:15px;max-width:34ch}
+.photo-anim::after{content:"▶ ANIMADA / GIF";position:absolute;top:10px;right:12px;font-size:10px;font-weight:800;letter-spacing:1px;color:var(--accent)}
+
+.split{display:grid;grid-template-columns:1fr 1fr;gap:30px;flex:1;align-items:center}
+.split.wide-left{grid-template-columns:1.3fr 1fr}
+.split > .photo,.split > .photo-anim{height:62vh}
+
+/* ---------- Gráfico de barras (CSS) ---------- */
+.bars{display:flex;align-items:flex-end;gap:18px;height:46vh;padding-top:10px}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.bar{width:70%;border-radius:10px 10px 4px 4px;background:linear-gradient(180deg,var(--accent),#00612a);
+  height:0;transition:height 1s cubic-bezier(.2,.7,.2,1);position:relative;min-height:4px}
+.bar.alt{background:linear-gradient(180deg,var(--yellow),#a68a00)}
+.bar .val{position:absolute;top:-28px;left:0;right:0;text-align:center;font-weight:800;font-size:18px}
+.bar-lbl{margin-top:10px;color:var(--muted);font-size:16px;text-align:center}
+
+/* ---------- Línea de tiempo ---------- */
+.timeline{position:relative;margin-top:30px;padding-left:6px;flex:1}
+.timeline::before{content:"";position:absolute;left:18px;top:0;bottom:0;width:3px;background:var(--line)}
+.tl-item{position:relative;padding:0 0 26px 56px}
+.tl-item .dot{position:absolute;left:9px;top:2px;width:22px;height:22px;border-radius:50%;
+  background:var(--accent);border:4px solid var(--bg);box-shadow:0 0 0 3px var(--accent)}
+.tl-item h3{margin-bottom:4px}
+.tl-item .when{color:var(--accent);font-weight:700;font-size:16px;letter-spacing:1px}
+.tl-item .what{color:var(--muted);font-size:19px;margin-top:4px;line-height:1.5}
+
+/* ---------- Gauge / medidor (SVG) ---------- */
+.gauge-wrap{display:flex;align-items:center;justify-content:center;gap:30px}
+.gauge{position:relative;width:240px;height:240px}
+.gauge .num{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.gauge .num b{font-size:46px;font-weight:800;display:block}
+.gauge .num span{color:var(--muted);font-size:13px;letter-spacing:1px}
+
+/* ---------- Funnel ---------- */
+.funnel{display:flex;flex-direction:column;gap:10px;flex:1;justify-content:center;max-width:760px;margin:0 auto;width:100%}
+.funnel-row{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:16px 22px;display:flex;justify-content:space-between;align-items:center;margin:0 auto}
+.funnel-row b{font-size:32px}
+.funnel-row span{color:var(--muted);font-size:19px}
+
+/* ---------- Ranking ---------- */
+.rank{display:flex;flex-direction:column;gap:12px;flex:1;justify-content:center}
+.rank-row{display:flex;gap:18px;align-items:center;background:var(--panel);border:1px solid var(--line);
+  border-radius:12px;padding:14px 20px}
+.rank-row .pos{font-size:30px;font-weight:800;color:var(--gold);width:48px;text-align:center}
+.rank-row .body h3{font-size:23px}
+.rank-row .body p{color:var(--muted);font-size:17px;margin-top:2px}
+
+/* ---------- Star / competencia ratings ---------- */
+.skills{display:flex;flex-direction:column;gap:18px;flex:1;justify-content:center;max-width:820px}
+.skill{display:grid;grid-template-columns:240px 1fr 60px;align-items:center;gap:18px}
+.skill .name{font-weight:700;font-size:20px}
+.skill .track{height:14px;background:var(--panel-2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.skill .track i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width 1s}
+.skill .score{font-weight:800;text-align:right;color:var(--accent-2)}
+
+/* scatter joke */
+.scatter{flex:1;position:relative;border-left:2px solid var(--line);border-bottom:2px solid var(--line);margin:30px 60px}
+.scatter .pt{position:absolute;width:14px;height:14px;border-radius:50%;background:var(--gold);transform:translate(-50%,50%);box-shadow:0 0 12px var(--gold)}
+.scatter .axis-x{position:absolute;bottom:-30px;width:100%;text-align:center;color:var(--muted)}
+.scatter .axis-y{position:absolute;left:-46px;top:50%;transform:rotate(-90deg);color:var(--muted);white-space:nowrap}
+.scatter .trend{position:absolute;left:0;bottom:0;width:140%;height:2px;background:var(--bad);transform-origin:left;transform:rotate(-32deg);opacity:.7}
+
+/* stamp */
+.stamp{position:absolute;top:50%;right:8vw;transform:translateY(-50%) rotate(-14deg);
+  border:6px solid var(--accent-2);color:var(--accent-2);font-weight:900;font-size:34px;
+  letter-spacing:3px;padding:14px 26px;border-radius:14px;opacity:.92;text-transform:uppercase}
+
+.hint{position:fixed;bottom:50px;right:18px;font-size:11px;color:var(--muted);z-index:40;opacity:.6}
+.two-col-list{columns:2;column-gap:40px;margin-top:20px}
+.two-col-list li{margin:0 0 16px;break-inside:avoid;color:var(--muted);font-size:21px;line-height:1.4;list-style:none;
+  padding-left:26px;position:relative}
+.two-col-list li::before{content:"›";position:absolute;left:0;color:var(--accent);font-weight:800}
+.two-col-list li b{color:var(--ink)}
+ul.clean{list-style:none}
+.section-num{font-size:160px;font-weight:900;color:rgba(31,41,55,.05);position:absolute;right:5vw;top:8vh;line-height:1}
+
+/* ---------- ¿A cuál más smash? (elección del novio) ---------- */
+.smash-grid{display:grid;gap:20px;flex:1;margin-top:16px;align-content:center}
+.smash-card{background:linear-gradient(180deg,var(--panel),var(--panel-2));border:1px solid var(--line);
+  border-radius:16px;box-shadow:0 6px 18px rgba(31,41,55,.08);padding:16px 14px;display:flex;
+  flex-direction:column;align-items:center;position:relative}
+.smash-photo{width:100%;aspect-ratio:1/1;border-radius:50%;background-size:cover;background-position:center;
+  border:4px solid var(--accent);background-color:var(--panel-2);display:grid;place-items:center;
+  color:var(--muted);text-align:center;overflow:hidden}
+.smash-photo .ph-ico{font-size:40px;opacity:.5}
+.smash-photo .ph-mini{font-size:11px;letter-spacing:1px;text-transform:uppercase;margin-top:4px}
+.smash-name{margin-top:12px;font-size:21px;font-weight:800;color:var(--ink);text-align:center;line-height:1.15}
+.smash-tag{margin-top:2px;font-size:14px;color:var(--gold);font-style:italic;text-align:center}
+.smash-heart{position:absolute;top:10px;right:12px;font-size:20px}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo"><span class="dot"></span> VALDE&nbsp;CORP. 🇧🇷</div>
+  <span>· Annual Performance Review</span>
+  <div class="spacer"></div>
+  <span id="periodo"></span>
+</div>
+
+<div id="deck"></div>
+
+<div class="footer">
+  <span class="nav-btn" onclick="prev()">‹</span>
+  <span class="nav-btn" onclick="next()">›</span>
+  <div class="progress"><i id="bar"></i></div>
+  <span class="counter"><span id="cur">1</span> / <span id="tot">0</span></span>
+</div>
+<div class="hint">← → para navegar · F pantalla completa</div>
+
+<script>
+/* ============================================================================
+   ███  RELLENA TODO ACÁ  ███
+   Edita el objeto DATA. Los slides se arman solos con estos datos.
+   - Lo que está en comillas con [corchetes] o "???" es para que reemplaces.
+   - Fotos: pon el archivo dentro de la carpeta "Fotos/" y escribe el nombre,
+            ej: src:"Fotos/valde-colegio.jpg". Si lo dejas vacío sale el placeholder.
+   ============================================================================ */
+const DATA = {
+  // --- Datos generales ---
+  empleado: "Diego \"Valde\" Valdebenito",
+  reviewAnios: "[edad]",                       // número que va en el título de portada
+  cargo: "Soltero Senior",
+  prometida: "[nombre de la novia/prometida]",
+  periodoEvaluado: "[año nac.] – 2026",        // años de soltería evaluados
+  antiguedad: "[XX] años de servicio activo",
+  promocion: "Marido",
+  fechaBoda: "[fecha de la boda]",
+
+  // --- Perfil estilo LinkedIn (ficha del empleado) ---
+  perfil: {
+    nombreCompleto: "Diego Valdebenito [apellido]",
+    headline: "[cargo real / dónde trabaja Valde]",
+    ubicacion: "[ciudad]",
+    contactos: "[nº]",
+    empresa: "[empresa]",
+    universidad: "[universidad]",
+    acercaDe: "[Bio estilo LinkedIn: título, magíster, 'buenas relaciones interpersonales'... el clásico texto de perfil que se pueda leer en tono chistoso.]",
+    // Entrada de experiencia con el chiste de la despedida
+    expCargo: "Soltero Senior",
+    expEmpresa: "Valdebenito & Asociados · Jornada completa",
+    expPeriodo: "[mes año inicio] – dic 2026 · [XX] años",
+    expNota: "Contrato por finalizar: ascenso a 💍 Marido el [fecha].",
+    // Segunda experiencia (hobby chistoso de Valde)
+    exp2Cargo: "[hobby/talento chistoso de Valde]",
+    exp2Empresa: "[dónde lo practica] · Hobby",
+    exp2Periodo: "[años]",
+    exp2Metric: "[métrica chistosa]",
+    exp2MetricNota: "[nota entre paréntesis]",
+    // Tercera experiencia (baile / otro talento)
+    exp3Cargo: "[otro talento, ej: Bailarín amateur]",
+    exp3Empresa: "[dónde] · Fines de semana",
+    exp3Pasos: ["[paso 1]", "[paso 2]", "[paso 3]", "[paso 4]", "[paso 5]"],
+    exp3Conquistas: "[X] conquistas",
+    exp3KOs: "[X] KOs",
+    exp3KOsNota: "sin querer",
+  },
+
+  // --- Resumen ejecutivo (rellena el veredicto) ---
+  resumenEjecutivo: "[Veredicto del comité: tras [XX] años de operación, el empleado alcanza la meta estratégica. El comité recomienda su ascenso inmediato, no exento de observaciones.]",
+  notaGlobal: "[X,X]",                       // nota final (escala chilena 1–7)
+
+  // --- TIMELINE (Acto 2) ---
+  timeline: [
+    { when:"Colegio",       title:"Los inicios",        what:"[Anécdota de colegio: cómo era, apodo, el primer amor platónico, la cana legendaria...]", img:"Fotos/valde-colegio.jpeg" },
+    { when:"Universidad",   title:"Años de formación",  what:"[Carrera, carrete universitario, el grupo de amigos, la etapa más salvaje...]", img:"Fotos/valde-universidad.jpeg" },
+    { when:"Trabajo",       title:"Vida profesional",   what:"[Dónde trabaja, cómo es de pega, el ascenso, el viaje épico...]", img:"Fotos/valde-trabajo.jpeg" },
+  ],
+
+  // --- Pilares estratégicos del empleado {foto, pilar, desc} ---
+  fotosChistosas: [
+    {img:"Fotos/valde-pilar-1.jpeg", pilar:"Estilo",      desc:"Imagen de marca personal"},
+    {img:"Fotos/valde-pilar-2.jpeg", pilar:"Nutrición",   desc:"Combustible de alto rendimiento"},
+    {img:"Fotos/valde-pilar-3.jpeg", pilar:"Relajo",      desc:"Gestión del descanso y el ocio"},
+    {img:"Fotos/valde-pilar-4.jpeg", pilar:"Hidratación", desc:"Reposición de líquidos 24/7"},
+  ],
+
+  // --- Fotos grupales (slide Equipo) {foto, caption} ---
+  equipoFotos: [
+    {img:"Fotos/valde-grupo-viajes.jpeg",  cap:"Los de los viajes"},
+    {img:"Fotos/valde-grupo-deporte.jpeg", cap:"Los del deporte"},
+    {img:"Fotos/valde-grupo-carrete.jpeg", cap:"Los del carrete"},
+  ],
+
+  // --- Cómo conoció a la novia (último evento canónico) ---
+  laNovia: {
+    titulo: "Cómo conoció a [nombre de la novia]",
+    historia: "[La historia de cómo se conocieron, dónde, quién dio el primer paso, la primera cita...]",
+    img: "Fotos/valde-pareja.jpeg",
+  },
+
+  // ====================== KPIs SOCIALES (Acto 3 · 20 slides) ======================
+  mujeres: {
+    novias: "[nº]",
+    noviasNote: "Relaciones formales declaradas a RRHH",
+    exes: ["[Ex 1]", "[Ex 2]", "[Ex 3]"],
+    // Thumbnails en la card "Novias formales" (win:true = la actual)
+    exFotos: [
+      {nombre:"[Ex 1]", img:"Fotos/Exes/ex1.png"},
+      {nombre:"[Ex 2]", img:"Fotos/Exes/ex2.png"},
+      {nombre:"[Ex 3]", img:"Fotos/Exes/ex3.png"},
+      {nombre:"[Novia] 💍", img:"Fotos/Novia/valde-novia.png", win:true},
+    ],
+    pololaMasLarga: "[X años]",
+    pololaMasCorta: "[X meses]",
+    ons: "[nº]",                              // one night stands
+    onsNote: "Operaciones de corto plazo",
+    // Distribución de duración (frecuencia vs tiempo) — pico en 2 min
+    onsDuracion: [["1 min",2],["2 min",10],["3 min",5],["5 min",2],["8 min",1],["+15 min",1]],
+    citasTotales: "??",
+    // citas por año (para el gráfico de barras): pon [etiqueta, valor]
+    citasPorAnio: [["2019",0],["2020",0],["2021",0],["2022",0],["2023",0]],
+    // funnel de conversión
+    funnel: [
+      ["Matches / miradas", "???"],
+      ["Conversaciones",     "???"],
+      ["Primera cita",       "???"],
+      ["Segunda cita",       "???"],
+      ["Pololeo",            "???"],
+    ],
+    // Tácticas de conquista que se revelan ENTRE los pasos del funnel.
+    // video: usa un archivo de video · img: ruta de foto · ph: texto del placeholder si aún no hay foto
+    tacticas: [
+      {titulo:"[Táctica 1]", desc:"[Descripción del movimiento estrella de Valde]", ph:"[Foto pendiente]"},
+      {titulo:"[Táctica 2]", desc:"[Descripción]", ph:"[Foto pendiente]"},
+      {titulo:"[Táctica 3]", desc:"[Descripción]", ph:"[Foto pendiente]"},
+      {titulo:"[Táctica 4]", desc:"[Descripción]", ph:"[Foto o video pendiente]"},
+    ],
+    // mapa de conquistas (lugar -> nivel 0-100 para la barra)
+    conquistas: [["Santiago",80],["Viña / la playa",55],["En el extranjero",30],["Carrete de la U",70]],
+    tasaConversion: "??%",
+    records: [
+      ["Relación más larga","?? años","[con quién / contexto]"],
+      ["Relación más corta","?? semanas","[el caso exprés]"],
+      ["Texto sin responder más largo","?? días","[la dejada en visto histórica]"],
+      ["Edad del primer beso","?? años","[contexto]"],
+    ],
+  },
+
+  alcohol: {
+    tragoFavorito: "[trago favorito]",
+    litrosEstimados: "???",
+    litrosNote: "Litros estimados en vida adulta",
+    toleranciaPct: 70,                       // 0-100 para el gauge
+    toleranciaLabel: "Nivel de tolerancia",
+    curados: "??",
+    curadosNote: "Curados / blackouts confirmados",
+    borracherasPorAnio: [["2019",0],["2020",0],["2021",0],["2022",0],["2023",0]],
+    topBorracheras: [
+      ["[Borrachera legendaria #1]","[contexto: dónde, cómo terminó, cuántos tragos llevaba...]"],
+      ["[Borrachera legendaria #2]","[contexto...]"],
+      ["Por definir...","[el comité sigue recopilando testimonios — espacio reservado]"],
+    ],
+  },
+
+  // Performance review final del segmento
+  // Análisis FODA (edita cada cuadrante a gusto)
+  foda: {
+    fortalezas:    ["[Fortaleza 1]", "[Fortaleza 2]", "[Fortaleza 3]"],
+    oportunidades: ["[Oportunidad 1]", "[Oportunidad 2]", "[Oportunidad 3]"],
+    debilidades:   ["[Debilidad 1]", "[Debilidad 2]", "[Debilidad 3]"],
+    amenazas:      ["[Amenaza 1]", "[Amenaza 2]", "[Amenaza 3]"],
+  },
+
+  // ====================== ROAST · AUDITORÍA 360° (slides nuevos) ======================
+  roast: {
+    // Competencias maritales (0-100) — barras animadas
+    competencias: [
+      ["Cocinar algo que no sea huevo con arroz", 18],
+      ["Acordarse de fechas importantes", 22],
+      ["Decir \"tienes razón\" sin discutir", 12],
+      ["Armar muebles sin que sobren piezas", 35],
+      ["Escuchar sin mirar el celular", 25],
+      ["[Competencia chistosa de Valde]", 50],
+      ["Bailar en matrimonios ajenos", 92],
+    ],
+    // Distribución histórica del sueldo de soltero (%) — debe sumar 100
+    presupuesto: [
+      ["Carrete y salidas", 35],
+      ["Delivery post-carrete", 18],
+      ["[Gasto característico de Valde]", 15],
+      ["Bencina / Uber del arrepentimiento", 12],
+      ["Gimnasio (pagado, no pisado)", 10],
+      ["Ahorro real", 10],
+    ],
+    // Lo que dice vs lo que hace
+    diceVsHace: [
+      ["\"Me quedo en una y me voy\"", "Cierra el local y pide la del estribo"],
+      ["\"Estoy a 5 minutos\"", "Todavía está en la ducha"],
+      ["\"[Frase típica de Valde #1]\"", "[Lo que realmente pasa]"],
+      ["\"[Frase típica de Valde #2]\"", "[Lo que realmente pasa]"],
+    ],
+    // Testimonios de los amigos (con foto: Fotos/testigo-1.png, etc. — vacío = placeholder)
+    testimonios: [
+      {quien:"[Amigo 1]", cargo:"Testigo presencial de los hechos", quote:"[Testimonio comprometedor #1]", img:""},
+      {quien:"[Amigo 2]", cargo:"Víctima frecuente de sus planes", quote:"[Testimonio comprometedor #2]", img:""},
+      {quien:"[Amigo 3]", cargo:"Compañero de eventos canónicos", quote:"[Testimonio comprometedor #3]", img:""},
+    ],
+    // Evolución física antes/después (Fotos/valde-antes.jpeg y Fotos/valde-despues.jpeg)
+    evolucion: {
+      captionAntes:"[Valde en su prime: año, contexto]",
+      captionDespues:"[Valde hoy: cómodo, feliz y bien alimentado]",
+      imgAntes:"", imgDespues:"",
+    },
+    // Excusas más usadas (ranking)
+    excusas: [
+      ["\"Es que había un taco…\"", "Usada [XX] veces · efectividad estimada 4%"],
+      ["\"Se me quedó el celular en la casa\"", "Nadie le ha creído nunca"],
+      ["\"[Excusa clásica de Valde #1]\"", "[Contexto / cuántas veces]"],
+      ["\"[Excusa clásica de Valde #2]\"", "[Contexto]"],
+    ],
+    // Diccionario Valde → Español (frase, traducción real)
+    diccionario: [
+      ["\"Ya, pero una corta\"", "Mínimo 4 horas más y termina cantando"],
+      ["\"Yo organizo, quédense tranquilos\"", "Lo organiza otro, él confirma el día antes"],
+      ["\"Estoy ahorrando\"", "Se acaba de comprar [cosa cara innecesaria]"],
+      ["\"[Frase típica de Valde #3]\"", "[Traducción real]"],
+      ["\"[Frase típica de Valde #4]\"", "[Traducción real]"],
+      ["\"Voy saliendo\"", "Aún no se ducha"],
+    ],
+    // Tiempo de respuesta por remitente [quién, ancho barra 0-100, etiqueta]
+    respuesta: [
+      ["La novia", 3, "30 seg"],
+      ["Su mamá", 18, "2 hrs"],
+      ["El jefe", 40, "medio día"],
+      ["El grupo de amigos", 85, "3 días"],
+      ["[Contacto que siempre ignora]", 100, "visto eterno"],
+    ],
+    // Screen time [horas de pantalla, desglose de apps en %]
+    telefono: {
+      pantalla: "[X] hrs", pantallaNote: "Promedio diario de pantalla",
+      apps: [
+        ["WhatsApp (dejando en visto)", 35],
+        ["Instagram (stalkeo profesional)", 25],
+        ["[App vergonzosa de Valde]", 20],
+        ["Spotify (la misma playlist desde 2018)", 12],
+        ["Apps de productividad", 8],
+      ],
+    },
+    // La curva de la noche [hora, energía 0-100, hito]
+    curvaNoche: [
+      ["21:00", 35, "\"No sé si voy\""],
+      ["23:00", 65, "Entra en calor"],
+      ["01:00", 90, "Se apodera de la música"],
+      ["02:30", 100, "\"[Frase peak de Valde]\""],
+      ["04:00", 18, "Desaparece sin avisar"],
+      ["04:15", 3, "Manda ubicación equivocada"],
+    ],
+    // Expediente disciplinario [fecha, incidente, detalle]
+    expediente: [
+      ["[Fecha 1]", "El incidente de [lugar]", "[Qué hizo exactamente: detalle comprometedor]"],
+      ["[Fecha 2]", "[Título del incidente #2]", "[Detalle]"],
+      ["[Fecha 3]", "[Título del incidente #3]", "[Detalle]"],
+      ["Clasificado", "Expediente sellado por 99 años", "El comité decidió que hay cosas que ni la novia debe saber."],
+    ],
+    // Crímenes contra la moda (galería — img vacía = placeholder)
+    looks: [
+      {img:"", cap:"[Época del look #1]", desc:"[Descripción del crimen]"},
+      {img:"", cap:"[Época del look #2]", desc:"[Descripción del crimen]"},
+      {img:"", cap:"[Época del look #3]", desc:"[Descripción del crimen]"},
+      {img:"", cap:"[Época del look #4]", desc:"[Descripción del crimen]"},
+    ],
+    // Certificaciones chistosas [título, detalle]
+    certificaciones: [
+      ["🎓 Magíster en Llegar Tarde", "Universidad de la Vida · aprobado con distinción máxima"],
+      ["🏅 Diplomado en Quedarse Dormido en Previas", "[XX] convalidaciones acreditadas"],
+      ["📜 Certificación en Prometer y No Cumplir", "Se renueva automáticamente cada año"],
+      ["🔧 [Certificación chistosa de Valde]", "[Detalle]"],
+    ],
+    // Aporte real al carrete [área, %]
+    aporteCarrete: [
+      ["Autoproclamarse DJ", 95],
+      ["Convencer al resto de \"la última\"", 90],
+      ["Desaparecer en el peak de la noche", 80],
+      ["[Aporte característico de Valde]", 60],
+      ["Aportar con hielo / bebidas", 15],
+      ["Ayudar a ordenar al final", 3],
+    ],
+    // Benchmark [criterio, marido funcional, método Valde]
+    vsMarido: [
+      ["Despertar un domingo", "9:00 AM, desayuno listo", "14:30, pidiendo agua desde la cama"],
+      ["Vacaciones", "Itinerario en Excel con reservas", "\"Allá vemos, relájate\""],
+      ["Regalo de aniversario", "Comprado con un mes de anticipación", "Bencinera, 23:47 del mismo día"],
+      ["[Criterio personalizado]", "[Lo que haría un marido funcional]", "[El método Valde]"],
+    ],
+    // Cifras verificadas [label, cifra, nota]
+    datosCuriosos: [
+      ["Veces que dijo \"es la última\"", "∞", "Serie histórica sin quiebres"],
+      ["Promesas de gym cumplidas", "0,5", "Fue una vez. Se sacó foto."],
+      ["[Dato curioso de Valde #1]", "??", "[Nota al pie]"],
+      ["[Dato curioso de Valde #2]", "??", "[Nota al pie]"],
+    ],
+    // Predicciones para la boda (probabilidad %)
+    predicciones: [
+      ["Llora en la ceremonia", 96],
+      ["Se saca la corbata antes del vals", 88],
+      ["Da un discurso más largo que esta presentación", 74],
+      ["Pide \"la última\" a las 4 AM", 99],
+      ["[Predicción personalizada sobre Valde]", 50],
+    ],
+    // Cláusulas del nuevo contrato de Marido
+    clausulas: [
+      ["Art. 1", "El asado con los amigos queda protegido por ley. Inamovible."],
+      ["Art. 2", "Los permisos de carrete pasan a régimen de aprobación previa (SLA: 5 días hábiles)."],
+      ["Art. 3", "La frase \"yo cocino\" incluye lavar la loza. Sin excepciones ni apelación."],
+      ["Art. 4", "[Cláusula personalizada #1]"],
+      ["Art. 5", "[Cláusula personalizada #2]"],
+    ],
+  },
+
+  // ====================== JUEGOS (Acto 4) ======================
+  juegos: [
+    { titulo:"¿Quién dijo qué?", reglas:"Se lee una frase legendaria de Valde y los invitados adivinan en qué contexto la dijo. [Prepara 5-6 frases]" },
+    { titulo:"Verdadero o Falso", reglas:"Datos del CV de Valde. La mesa vota. El que falla, toma. [Prepara afirmaciones]" },
+  ],
+
+  // ====================== ¿A CUÁL MÁS SMASH? (Acto 4) ======================
+  // Fotos de perfil de los asistentes (como si fueran candidatas). Pon la foto en Fotos/Smash/
+  // y escribe el nombre. Agrega o quita cuantas necesites — la grilla se acomoda sola.
+  asistentes: [
+    {nombre:"[Asistente 1]", img:"Fotos/Smash/asistente-1.png", tag:"[apodo / gracia]"},
+    {nombre:"[Asistente 2]", img:"Fotos/Smash/asistente-2.png", tag:"[apodo / gracia]"},
+    {nombre:"[Asistente 3]", img:"Fotos/Smash/asistente-3.png", tag:"[apodo / gracia]"},
+    {nombre:"[Asistente 4]", img:"Fotos/Smash/asistente-4.png", tag:"[apodo / gracia]"},
+    {nombre:"[Asistente 5]", img:"Fotos/Smash/asistente-5.png", tag:"[apodo / gracia]"},
+    {nombre:"[Asistente 6]", img:"Fotos/Smash/asistente-6.png", tag:"[apodo / gracia]"},
+    {nombre:"[Asistente 7]", img:"Fotos/Smash/asistente-7.png", tag:"[apodo / gracia]"},
+    {nombre:"[Asistente 8]", img:"Fotos/Smash/asistente-8.png", tag:"[apodo / gracia]"},
+  ],
+
+  // Trivia estilo "¿Quién quiere ser millonario?" — edita pregunta y las 4 opciones
+  quiz: [
+    { q:"[Pregunta 1]",  op:["[Opción A]","[Opción B]","[Opción C]","[Opción D]"] },
+    { q:"[Pregunta 2]",  op:["[Opción A]","[Opción B]","[Opción C]","[Opción D]"] },
+    { q:"[Pregunta 3]",  op:["[Opción A]","[Opción B]","[Opción C]","[Opción D]"] },
+    { q:"[Pregunta 4]",  op:["[Opción A]","[Opción B]","[Opción C]","[Opción D]"] },
+    { q:"[Pregunta 5]",  op:["[Opción A]","[Opción B]","[Opción C]","[Opción D]"] },
+    { q:"[Pregunta 6]",  op:["[Opción A]","[Opción B]","[Opción C]","[Opción D]"] },
+    { q:"[Pregunta 7]",  op:["[Opción A]","[Opción B]","[Opción C]","[Opción D]"] },
+    { q:"[Pregunta 8]",  op:["[Opción A]","[Opción B]","[Opción C]","[Opción D]"] },
+    { q:"[Pregunta 9]",  op:["[Opción A]","[Opción B]","[Opción C]","[Opción D]"] },
+    { q:"[Pregunta 10]", op:["[Opción A]","[Opción B]","[Opción C]","[Opción D]"] },
+  ],
+};
+
+/* ============================================================================
+   ███  DE ACÁ PARA ABAJO ES EL MOTOR — no necesitas editarlo  ███
+   ============================================================================ */
+const D = DATA;
+const esc = s => String(s);
+
+// Helpers de componentes
+const photo = (desc, src, h="62vh") => src
+  ? `<div class="photo" style="height:${h};background:url('${src}') center/cover"></div>`
+  : `<div class="photo" style="height:${h}"><div class="ph-inner"><div class="ph-ico">📷</div>
+       <div class="ph-tag">Foto pendiente</div><div class="ph-desc">${esc(desc)}</div></div></div>`;
+
+const photoAnim = (desc, src, h="62vh") => src
+  ? `<div class="photo-anim" style="height:${h};background:url('${src}') center/cover"></div>`
+  : `<div class="photo-anim" style="height:${h}"><div class="ph-inner"><div class="ph-ico">🎞️</div>
+       <div class="ph-tag">Foto animada / GIF pendiente</div><div class="ph-desc">${esc(desc)}</div></div></div>`;
+
+const video = (src, h="62vh") =>
+  `<video src="${src}" autoplay muted loop playsinline
+     style="height:${h};width:100%;object-fit:cover;border-radius:var(--radius);border:2px solid var(--accent)"></video>`;
+
+const barChart = (data, alt=false) => {
+  const max = Math.max(...data.map(d=>d[1]), 1);
+  return `<div class="bars">${data.map(d=>`
+    <div class="bar-col">
+      <div class="bar ${alt?'alt':''}" data-h="${Math.round(d[1]/max*100)}"><span class="val">${d[1]}</span></div>
+      <div class="bar-lbl">${esc(d[0])}</div>
+    </div>`).join('')}</div>`;
+};
+
+const gauge = (pct, label, big) => {
+  const r=100, c=2*Math.PI*r, off=c*(1-pct/100);
+  return `<div class="gauge">
+    <svg viewBox="0 0 240 240">
+      <circle cx="120" cy="120" r="${r}" fill="none" stroke="#e2e7f0" stroke-width="22"/>
+      <circle class="gauge-arc" cx="120" cy="120" r="${r}" fill="none" stroke="url(#gg)" stroke-width="22"
+        stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c}" data-off="${off}"
+        transform="rotate(-90 120 120)"/>
+      <defs><linearGradient id="gg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#009739"/><stop offset="1" stop-color="#FEDD00"/></linearGradient></defs>
+    </svg>
+    <div class="num"><b>${big}</b><span>${esc(label)}</span></div>
+  </div>`;
+};
+
+// Donut chart (SVG) — data: [etiqueta, %]
+const DONUT_COLORS=['#009739','#FEDD00','#00612a','#c99700','#4caf50','#8d6e00'];
+const donut = (data, big="100%", small="del sueldo") => {
+  const r=88, c=2*Math.PI*r; let acc=0;
+  const segs=data.map((d,i)=>{
+    const len=d[1]/100*c;
+    const s=`<circle cx="120" cy="120" r="${r}" fill="none" stroke="${DONUT_COLORS[i%DONUT_COLORS.length]}"
+      stroke-width="40" stroke-dasharray="${len} ${c-len}" stroke-dashoffset="${-acc/100*c}"
+      transform="rotate(-90 120 120)"/>`;
+    acc+=d[1]; return s;
+  }).join('');
+  return `<svg viewBox="0 0 240 240" style="width:44vh;height:44vh;max-width:100%">${segs}
+    <circle cx="120" cy="120" r="60" fill="var(--panel)"/>
+    <text x="120" y="114" text-anchor="middle" font-size="30" font-weight="800" fill="var(--ink)">${big}</text>
+    <text x="120" y="138" text-anchor="middle" font-size="13" fill="var(--muted)">${small}</text></svg>`;
+};
+
+// ---------- Definición de SLIDES ----------
+const slides = [];
+
+// ===== APERTURA =====
+slides.push(`<div class="slide center">
+  <div class="kicker">🍻 Edición especial</div>
+  <h1>Despedida de soltero</h1>
+  <p style="font-size:46px;font-weight:800;color:var(--accent);margin-top:14px">Diego "Valde" Valdebenito</p>
+  <p class="sub" style="margin-top:10px">El último informe antes del "sí, acepto".</p>
+</div>`);
+
+slides.push(`<div class="slide center">
+  <div class="kicker good">Antes de empezar…</div>
+  <h2>Un mensaje de [la novia] 💌</h2>
+  <video class="footage-vid" controls playsinline preload="metadata" src="Fotos/Novia/novia-mensaje-inicial.mp4" style="margin-top:20px"></video>
+</div>`);
+
+slides.push(`<div class="slide center">
+  <div class="kicker">El gran salto 🔜</div>
+  <h2 style="font-size:50px">Llegó el momento de cerrar el ciclo… 🔄</h2>
+  <p style="font-size:46px;font-weight:800;color:var(--accent);margin-top:20px">¿Estás listo para ser MARIDO? 💍🤵</p>
+  <p class="sub" style="margin-top:14px">Pero antes, un último repaso del expediente. 🍻📋</p>
+</div>`);
+
+// ===== ACTO 0: PORTADA =====
+slides.push(`<div class="slide center">
+  <div class="kicker">Periodo evaluado · ${esc(D.periodoEvaluado)}</div>
+  <h1>Performance<br>Review</h1>
+  <p style="font-size:32px;font-weight:800;color:var(--ink);margin-top:18px">${esc(D.empleado)}</p>
+  <p class="sub" style="margin-top:8px">Evaluación de desempeño 360° — <b>Edición Pre-Casado.</b><br>
+     Cargo actual: <b>${esc(D.cargo)}</b> · ${esc(D.antiguedad)}</p>
+  <div class="chips">
+    <span class="chip">📋 Evaluación integral</span>
+    <span class="chip">📊 KPIs &amp; métricas</span>
+    <span class="chip">🥃 Auditoría de lifestyle</span>
+  </div>
+</div>`);
+
+slides.push(`<div class="slide">
+  <div class="section-num">00</div>
+  <div class="kicker">Agenda de la sesión</div>
+  <h2>Índice de la evaluación</h2>
+  <div class="grid" style="flex:1;margin:14px 0;gap:11px;grid-auto-rows:1fr">
+    <div class="card agenda-card" style="flex-direction:row;align-items:center;justify-content:flex-start;gap:28px;padding:16px 40px"><div class="ag-num">1</div><div><h3>Perfil del colaborador</h3></div></div>
+    <div class="card agenda-card" style="flex-direction:row;align-items:center;justify-content:flex-start;gap:28px;padding:16px 40px"><div class="ag-num">2</div><div><h3>Trayectoria</h3></div></div>
+    <div class="card agenda-card" style="flex-direction:row;align-items:center;justify-content:flex-start;gap:28px;padding:16px 40px"><div class="ag-num">3</div><div><h3>Veredicto</h3></div></div>
+  </div>
+</div>`);
+
+// ===== SECCIÓN 1: PERFIL DEL COLABORADOR =====
+const P = D.perfil;
+slides.push(`<div class="slide center">
+  <div class="section-num">01</div>
+  <div class="kicker">Sección 1</div>
+  <h1>Perfil del<br>colaborador</h1>
+  <p class="sub">Quién es el empleado evaluado: ficha, trayectoria y cómo llegó hasta acá.</p>
+</div>`);
+
+slides.push(`<div class="slide" style="padding-top:1.5vh;padding-bottom:1vh">
+  <div class="kicker" style="margin-bottom:6px">Ficha del empleado</div>
+  <h2 style="margin-bottom:2px;font-size:40px">Perfil del colaborador</h2>
+  <div class="li-wrap">
+    <div class="li-card li-profile">
+      <div class="li-banner"><span class="li-banner-txt">#[hashtag de Valde]</span></div>
+      <img class="li-avatar" src="Fotos/valde-perfil-empleado.png" alt="Valde">
+      <div class="li-body">
+        <div class="li-name">${esc(P.nombreCompleto)} <span class="li-badge">✓</span> <span class="li-1er">· 1.er</span></div>
+        <div class="li-headline">💍 ${esc(P.expCargo)}</div>
+        <div class="li-cargo-detail">${esc(P.expEmpresa)} · ${esc(P.expPeriodo)}</div>
+        <div class="li-cargo-detail" style="color:var(--bad);font-weight:600">${esc(P.expNota)}</div>
+        <div class="li-realrole">En la vida real · ${esc(P.headline)}</div>
+        <div class="li-meta">${esc(P.ubicacion)} · <span class="li-link">Información de contacto</span></div>
+        <div class="li-conn">${esc(P.contactos)} contactos</div>
+        <div class="li-orgs">
+          <span class="li-org"><span class="li-sq">🏢</span> ${esc(P.empresa)}</span>
+          <span class="li-org"><span class="li-sq">🎓</span> ${esc(P.universidad)}</span>
+        </div>
+        <div class="li-btns">
+          <span class="li-btn primary">✈ Enviar mensaje</span>
+          <span class="li-btn">+ Seguir</span>
+        </div>
+      </div>
+    </div>
+    <div class="li-side">
+      <div class="li-card">
+        <h3 class="li-h3">Acerca de</h3>
+        <p class="li-about">${esc(P.acercaDe)}</p>
+      </div>
+      <div class="li-card">
+        <h3 class="li-h3">Experiencia destacada</h3>
+        <div class="li-exp frag">
+          <div class="li-exp-ico">🚁</div>
+          <div>
+            <b>${esc(P.exp2Cargo)}</b>
+            <div class="li-exp-sub">${esc(P.exp2Empresa)} · ${esc(P.exp2Periodo)}</div>
+            <div class="li-exp-metric">🐦 ${esc(P.exp2Metric)} <span>(${esc(P.exp2MetricNota)})</span></div>
+          </div>
+        </div>
+        <div class="li-exp frag" style="margin-top:9px;padding-top:9px;border-top:1px solid var(--line)">
+          <div class="li-exp-ico">🕺</div>
+          <div>
+            <b>${esc(P.exp3Cargo)}</b>
+            <div class="li-exp-sub">${esc(P.exp3Empresa)}</div>
+            <div class="li-steps">${P.exp3Pasos.map(p=>`<span>${esc(p)}</span>`).join('')}</div>
+            <div class="li-metrics">
+              <span class="li-exp-metric good">💃 ${esc(P.exp3Conquistas)}</span>
+              <span class="li-exp-metric">🥊 ${esc(P.exp3KOs)} <span>(${esc(P.exp3KOsNota)})</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`);
+
+// (Sección 1 continúa) Trayectoria en fotos chistosas — timeline
+slides.push(`<div class="slide">
+  <div class="kicker">Marco estratégico</div>
+  <h2>Pilares estratégicos del empleado</h2>
+  <div class="gallery" style="grid-template-columns:repeat(${D.fotosChistosas.length},1fr)">
+    ${D.fotosChistosas.map((f,i)=>`<div class="gal-item frag">
+      <div class="gal-photo" style="background-image:url('${f.img}');margin-top:14px"></div>
+      <div class="gal-cap"><div class="pilar-name">${esc(f.pilar)}</div><div class="pilar-desc">${esc(f.desc)}</div></div>
+    </div>`).join('')}
+  </div>
+</div>`);
+
+// Equipo (fotos grupales) — después de los pilares
+slides.push(`<div class="slide">
+  <div class="kicker">Recursos humanos</div>
+  <h2>El equipo</h2>
+  <p class="sub" style="margin-top:6px">Los que estuvieron en todas (y en ninguna se hicieron los locos).</p>
+  <div class="gallery" style="grid-template-columns:repeat(${D.equipoFotos.length},1fr)">
+    ${D.equipoFotos.map(f=>`<div class="team-item">
+      <div class="gal-photo" style="background-image:url('${f.img}')"></div>
+      <div class="team-cap">${esc(f.cap)}</div>
+    </div>`).join('')}
+  </div>
+</div>`);
+
+// Timeline profesional (Colegio · Universidad · Trabajo) con fotos
+slides.push(`<div class="slide">
+  <div class="kicker">Trayectoria del colaborador</div>
+  <h2>Historia laboral (de la vida)</h2>
+  <div class="grid g3" style="flex:1;margin:18px 0;grid-auto-rows:1fr">
+    ${D.timeline.map(t=>`<div class="card frag" style="display:flex;flex-direction:column;padding:16px">
+      <div class="gal-photo" style="background-image:url('${t.img}');flex:1;margin:0 0 12px;min-height:28vh"></div>
+      <div style="color:var(--accent);font-weight:800;letter-spacing:1px;font-size:15px;text-transform:uppercase">${esc(t.when)}</div>
+      <h3 style="margin-top:2px">${esc(t.title)}</h3>
+      <p class="note" style="font-size:15px">${esc(t.what)}</p>
+    </div>`).join('')}
+  </div>
+</div>`);
+
+// ===== SECCIÓN 2: PORTAFOLIO DE RELACIONES =====
+const M=D.mujeres, A=D.alcohol, R=D.roast;
+
+slides.push(`<div class="slide">
+  <div class="split" style="align-items:center;flex:1">
+    <div>
+      <div class="kicker">Sección 2</div>
+      <h1>Trayectoria</h1>
+      <p class="sub" style="margin-top:14px">El recorrido completo del empleado: relaciones, conquistas, eventos canónicos y la fiel compañía.</p>
+      <div class="chips" style="margin-top:20px"><span class="chip">💘 Relaciones</span><span class="chip">💋 Conquistas</span><span class="chip">🍻 Eventos canónicos</span></div>
+    </div>
+    <div style="text-align:center">
+      <img src="Fotos/valde-trayectoria.jpeg" style="height:60vh;border-radius:16px;box-shadow:0 12px 32px rgba(31,41,55,.18)">
+      <div class="pquote"><span class="pq-text">"[Frase legendaria de Valde]"</span><span class="pq-by">— Diego "Valde" Valdebenito</span></div>
+    </div>
+  </div>
+</div>`);
+
+// (2) Novias
+slides.push(`<div class="slide">
+  <div class="kicker">KPI · Relaciones formales</div>
+  <h2>Portafolio de relaciones</h2>
+  <div class="grid g3" style="flex:1;margin:22px 0;gap:24px;grid-auto-rows:1fr">
+    <div class="card frag rel-card"><div class="label">Novias formales</div><div class="kpi blue">${esc(M.novias)}</div>
+      <p class="note">Reportadas a Recursos Humanos</p>
+      <div class="ex-thumbs">
+        ${(M.exFotos||[]).map(e=>`<div class="ex-thumb${e.win?' win':''}"><div class="ex-thumb-img" style="background-image:url('${e.img}')"></div><span>${esc(e.nombre)}</span></div>`).join('')}
+      </div>
+    </div>
+    <div class="card frag rel-card"><div class="label">Relación más corta</div><div class="kpi warn">${esc(M.pololaMasCorta)}</div><p class="note" style="font-size:44px;font-weight:800;color:var(--ink);line-height:1.1;margin-top:16px">Rotación acelerada</p></div>
+    <div class="card frag rel-card"><div class="label">Relación más larga</div><div class="kpi green">${esc(M.pololaMasLarga)}</div><p class="note" style="font-size:44px;font-weight:800;color:var(--ink);line-height:1.1;margin-top:16px">Récord de retención</p></div>
+  </div>
+</div>`);
+
+// (3) Foto animada ex novias
+// (4) One night stands
+slides.push(`<div class="slide">
+  <div class="kicker warn">KPI · Operaciones de corto plazo</div>
+  <h2>Engagements de única sesión</h2>
+  <div class="split" style="margin-top:18px;align-items:center">
+    <div>
+      <div class="card" style="text-align:center;padding:54px 24px">
+        <div class="label">Total registrado</div>
+        <div class="kpi gold" style="font-size:104px">${esc(M.ons)}</div>
+        <p class="note">${esc(M.onsNote)}</p>
+      </div>
+    </div>
+    <div class="frag">
+      <h3 style="text-align:center;font-size:26px;margin:6px 0 40px">⏱️ Duración por sesión</h3>
+      ${(()=>{
+        const dd=M.onsDuracion, mx=Math.max(...dd.map(d=>d[1]),1);
+        return `<div class="bars" style="height:46vh">${dd.map(d=>{
+          const peak=d[1]===mx;
+          return `<div class="bar-col"><div class="bar ${peak?'alt':''}" data-h="${Math.round(d[1]/mx*100)}"><span class="val">${peak?'⏱️':''}</span></div><div class="bar-lbl">${esc(d[0])}</div></div>`;
+        }).join('')}</div>`;
+      })()}
+      <p class="sub" style="font-size:18px;text-align:center;margin-top:10px">Fuerte concentración en los <b style="color:var(--gold)">primeros 2 minutos</b>.</p>
+    </div>
+  </div>
+</div>`);
+
+// Citas por año (gráfico de barras)
+slides.push(`<div class="slide">
+  <div class="kicker">KPI · Actividad comercial</div>
+  <h2>Citas por año</h2>
+  <p class="sub" style="margin-top:6px">Volumen histórico de reuniones exploratorias. Total declarado: <b>${esc(M.citasTotales)}</b> (cifra auditada: bastante más).</p>
+  ${barChart(M.citasPorAnio)}
+</div>`);
+
+// Mapa de conquistas (barras de cobertura)
+slides.push(`<div class="slide">
+  <div class="kicker">Cobertura geográfica</div>
+  <h2>Mapa de conquistas</h2>
+  <p class="sub" style="margin-top:6px">Presencia de la marca Valde por territorio. Tasa de conversión global: <b>${esc(M.tasaConversion)}</b>.</p>
+  <div class="skills" style="max-width:1000px">${M.conquistas.map(c=>`<div class="skill frag">
+    <span class="name">${esc(c[0])}</span><span class="track"><i data-w="${c[1]}"></i></span><span class="score">${c[1]}%</span>
+  </div>`).join('')}</div>
+</div>`);
+
+// Récords personales (ranking)
+slides.push(`<div class="slide">
+  <div class="kicker">Salón de la fama</div>
+  <h2>Récords personales</h2>
+  <div class="rank">${M.records.map((r,i)=>`<div class="rank-row frag">
+    <span class="pos">${['🥇','🥈','🥉','🏅'][i]||'🏅'}</span>
+    <div class="body"><h3>${esc(r[0])}: <span style="color:var(--accent)">${esc(r[1])}</span></h3><p>${esc(r[2])}</p></div>
+  </div>`).join('')}</div>
+</div>`);
+
+// (7) Funnel
+slides.push(`<div class="slide cf-dyn">
+  <div class="kicker">Embudo de conquista · método Valde</div>
+  <h2>Funnel de conversión</h2>
+  <div class="cf-stage">
+    <div class="cf-tac"><div class="cf-photo" style="background-image:url('Fotos/valde-especimen.jpeg');height:49vh"></div><div class="cf-tac-txt"><div class="cf-tac-k">El espécimen</div><h3>En su hábitat natural</h3></div></div>
+    ${(()=>{
+      let out='';
+      M.funnel.forEach((f,i)=>{
+        out+=`<div class="cf-row frag" style="width:${52-i*8}%"><span class="cf-step">${i+1}</span><span class="cf-lbl">${esc(f[0])}</span><b class="cf-val">${Math.round(100*Math.pow(0.8,i))}%</b></div>`;
+        const t=(M.tacticas||[])[i];
+        if(t){
+          const media=t.video
+            ? `<video class="cf-photo" src="${t.video}" autoplay muted loop playsinline></video>`
+            : (t.img
+                ? `<div class="cf-photo" style="background-image:url('${t.img}')"></div>`
+                : `<div class="cf-photo ph"><div><div style="font-size:42px">📷</div><div class="cf-ph-desc">${esc(t.ph||'')}</div></div></div>`);
+          out+=`<div class="cf-tac frag">${media}<div class="cf-tac-txt"><div class="cf-tac-k">Táctica de seducción #${i+1}</div><h3>${esc(t.titulo)}</h3><p>${esc(t.desc)}</p></div></div>`;
+        }
+      });
+      return out;
+    })()}
+  </div>
+</div>`);
+
+
+// Cómo conoció a la novia (cierre del funnel: la conversión definitiva)
+slides.push(`<div class="slide">
+  <div class="kicker good">La conversión definitiva 💍</div>
+  <h2>${esc(D.laNovia.titulo)}</h2>
+  <div class="split" style="margin-top:14px">
+    <div><p class="sub" style="font-size:25px;line-height:1.55">${esc(D.laNovia.historia)}</p></div>
+    ${photo("Foto de la pareja", D.laNovia.img)}
+  </div>
+</div>`);
+
+// ===== BLOQUE ALCOHOL =====
+slides.push(`<div class="slide">
+  <div class="kicker warn">Auditoría de lifestyle</div>
+  <h2>Gestión de líquidos</h2>
+  <div class="split" style="margin-top:10px;align-items:center">
+    <div class="grid" style="gap:16px">
+      <div class="card frag"><div class="label">Trago favorito</div><div class="kpi blue" style="font-size:42px">${esc(A.tragoFavorito)}</div></div>
+      <div class="card frag"><div class="label">${esc(A.litrosNote)}</div><div class="kpi gold">${esc(A.litrosEstimados)} <small>L</small></div></div>
+      <div class="card frag"><div class="label">${esc(A.curadosNote)}</div><div class="kpi red">${esc(A.curados)}</div></div>
+    </div>
+    <div class="gauge-wrap frag">${gauge(A.toleranciaPct, A.toleranciaLabel, A.toleranciaPct+"%")}</div>
+  </div>
+</div>`);
+
+// Borracheras por año (gráfico)
+slides.push(`<div class="slide">
+  <div class="kicker warn">KPI · Eventos canónicos</div>
+  <h2>Borracheras por año</h2>
+  <p class="sub" style="margin-top:6px">Incidentes reportados oficialmente. Cifra real estimada: el doble.</p>
+  ${barChart(A.borracherasPorAnio, true)}
+</div>`);
+
+// Top borracheras históricas (ranking)
+slides.push(`<div class="slide">
+  <div class="kicker warn">Hall of Fame etílico</div>
+  <h2>Top borracheras históricas</h2>
+  <div class="rank">${A.topBorracheras.map((b,i)=>`<div class="rank-row frag">
+    <span class="pos">#${i+1}</span>
+    <div class="body"><h3>${esc(b[0])}</h3><p>${esc(b[1])}</p></div>
+  </div>`).join('')}</div>
+</div>`);
+
+// Footage inédito (2 videos en secuencia)
+slides.push(`<div class="slide">
+  <div class="kicker bad">Material exclusivo</div>
+  <h2>Footage inédito</h2>
+  <div class="footage" style="flex:1;margin-top:18px;position:relative">
+    <div class="frag foot-wrap" data-foot><video class="footage-vid" src="Fotos/footage-1.mp4" muted playsinline></video></div>
+    <div class="frag foot-wrap" data-foot><video class="footage-vid" src="Fotos/footage-2.mp4" muted playsinline></video></div>
+  </div>
+</div>`);
+
+// ===== SECCIÓN ROAST · AUDITORÍA 360° =====
+slides.push(`<div class="slide center">
+  <div class="section-num">🔥</div>
+  <div class="kicker bad">Sección especial</div>
+  <h1>Auditoría 360°</h1>
+  <p class="sub">Lo que el comité encontró al revisar el expediente completo.<br>Nada personal, Valde. Bueno… sí.</p>
+</div>`);
+
+// Roast 1 · Competencias maritales (barras animadas)
+slides.push(`<div class="slide">
+  <div class="kicker">Evaluación de competencias</div>
+  <h2>Competencias maritales</h2>
+  <p class="sub" style="margin-top:6px">Skills auditadas de cara al nuevo cargo de 💍 ${esc(D.promocion)}.</p>
+  <div class="skills" style="max-width:1050px">${R.competencias.map(c=>`<div class="skill frag" style="grid-template-columns:420px 1fr 70px">
+    <span class="name" style="font-size:19px">${esc(c[0])}</span>
+    <span class="track"><i data-w="${c[1]}"></i></span>
+    <span class="score" style="color:${c[1]<40?'var(--bad)':'var(--accent)'}">${c[1]}%</span>
+  </div>`).join('')}</div>
+</div>`);
+
+// Roast 2 · Presupuesto del soltero (donut)
+slides.push(`<div class="slide">
+  <div class="kicker">Finanzas del soltero</div>
+  <h2>Distribución histórica del sueldo</h2>
+  <div class="split" style="align-items:center;margin-top:8px">
+    <div style="display:grid;place-items:center">${donut(R.presupuesto)}</div>
+    <div class="grid" style="gap:11px">${R.presupuesto.map((p,i)=>`<div class="card frag" style="padding:13px 20px;display:flex;align-items:center;gap:14px">
+      <span style="width:18px;height:18px;border-radius:5px;background:${DONUT_COLORS[i%DONUT_COLORS.length]};flex-shrink:0"></span>
+      <span style="flex:1;font-size:19px;font-weight:600">${esc(p[0])}</span>
+      <b style="font-size:23px;color:var(--accent)">${p[1]}%</b>
+    </div>`).join('')}</div>
+  </div>
+</div>`);
+
+// Roast 3 · Lo que dice vs lo que hace
+slides.push(`<div class="slide">
+  <div class="kicker">Auditoría de credibilidad</div>
+  <h2>Lo que dice vs. lo que hace</h2>
+  <div class="grid g2" style="flex:1;margin:14px 0;grid-auto-rows:1fr;gap:14px">
+    ${R.diceVsHace.map(d=>`<div class="card frag" style="display:flex;flex-direction:column;justify-content:center;gap:10px">
+      <div><span class="label" style="color:var(--accent)">📢 Dice</span><p style="font-size:24px;font-weight:700;margin-top:4px">${esc(d[0])}</p></div>
+      <div style="border-top:1px solid var(--line);padding-top:10px"><span class="label" style="color:var(--bad)">🎬 Hace</span><p style="font-size:21px;color:var(--muted);margin-top:4px">${esc(d[1])}</p></div>
+    </div>`).join('')}
+  </div>
+</div>`);
+
+// Roast 4 · Evolución del activo físico (antes/después + gráfico de tendencia)
+slides.push(`<div class="slide">
+  <div class="kicker warn">Análisis de activos</div>
+  <h2>Evolución del activo físico</h2>
+  <div class="grid g3" style="flex:1;margin:14px 0;align-items:stretch">
+    <div class="frag" style="display:flex;flex-direction:column">${photo(R.evolucion.captionAntes, R.evolucion.imgAntes, "44vh")}
+      <p style="text-align:center;font-weight:800;margin-top:10px;font-size:20px">ANTES · <span style="color:var(--accent)">peak histórico</span></p></div>
+    <div class="frag" style="display:flex;flex-direction:column;justify-content:center">
+      <div class="scatter" style="margin:10px 40px 40px;min-height:32vh;flex:0 0 32vh">
+        <span class="trend" style="bottom:auto;top:8%;transform-origin:left;transform:rotate(26deg)"></span>
+        <span class="pt" style="left:10%;bottom:78%"></span><span class="pt" style="left:35%;bottom:58%"></span>
+        <span class="pt" style="left:60%;bottom:36%"></span><span class="pt" style="left:85%;bottom:16%"></span>
+        <span class="axis-x">Años de relación estable</span><span class="axis-y">Estado físico</span>
+      </div>
+      <p class="sub" style="font-size:17px;text-align:center;margin:0 auto">Correlación directa entre felicidad y kilos.<br><b>R² = 0,98</b> · estadísticamente irrefutable.</p>
+    </div>
+    <div class="frag" style="display:flex;flex-direction:column">${photo(R.evolucion.captionDespues, R.evolucion.imgDespues, "44vh")}
+      <p style="text-align:center;font-weight:800;margin-top:10px;font-size:20px">HOY · <span style="color:var(--warn)">modo felicidad</span></p></div>
+  </div>
+</div>`);
+
+// Roast 5 · Excusas más utilizadas (ranking)
+slides.push(`<div class="slide">
+  <div class="kicker">Gestión de crisis</div>
+  <h2>Excusas más utilizadas</h2>
+  <p class="sub" style="margin-top:6px">Catálogo oficial de justificaciones, ordenado por frecuencia de uso.</p>
+  <div class="rank">${R.excusas.map((x,i)=>`<div class="rank-row frag">
+    <span class="pos">#${i+1}</span>
+    <div class="body"><h3>${esc(x[0])}</h3><p>${esc(x[1])}</p></div>
+  </div>`).join('')}</div>
+</div>`);
+
+// Roast 6 · Testimonios del comité (con fotos)
+slides.push(`<div class="slide">
+  <div class="kicker">Referencias laborales</div>
+  <h2>Testimonios del comité</h2>
+  <div class="grid g3" style="flex:1;margin:16px 0;grid-auto-rows:1fr">
+    ${R.testimonios.map(t=>`<div class="card frag" style="display:flex;flex-direction:column">
+      ${photo("Foto de "+t.quien, t.img, "24vh")}
+      <p style="font-size:20px;font-style:italic;margin-top:14px;line-height:1.4">"${esc(t.quote)}"</p>
+      <p style="margin-top:auto;padding-top:12px"><b style="font-size:19px">${esc(t.quien)}</b><br>
+        <span style="font-size:14px;color:var(--muted)">${esc(t.cargo)}</span></p>
+    </div>`).join('')}
+  </div>
+</div>`);
+
+// Roast 7 · Diccionario Valde → Español
+slides.push(`<div class="slide">
+  <div class="kicker">Glosario oficial</div>
+  <h2>Diccionario Valde → Español</h2>
+  <div class="grid g2" style="flex:1;margin:14px 0;grid-auto-rows:1fr;gap:12px">
+    ${R.diccionario.map(d=>`<div class="card frag" style="display:flex;flex-direction:column;justify-content:center;gap:6px;padding:18px 24px">
+      <p style="font-size:24px;font-weight:800;color:var(--accent)">${esc(d[0])}</p>
+      <p style="font-size:19px;color:var(--muted)">Traducción: <b style="color:var(--ink)">${esc(d[1])}</b></p>
+    </div>`).join('')}
+  </div>
+</div>`);
+
+// Roast 8 · Tiempo de respuesta por remitente
+slides.push(`<div class="slide">
+  <div class="kicker">Auditoría de comunicaciones</div>
+  <h2>Tiempo de respuesta por remitente</h2>
+  <p class="sub" style="margin-top:6px">Medición oficial del doble check azul. Escala logarítmica: la lineal no alcanzaba.</p>
+  <div class="skills" style="max-width:1050px">${R.respuesta.map(r=>`<div class="skill frag" style="grid-template-columns:360px 1fr 190px">
+    <span class="name" style="font-size:21px">${esc(r[0])}</span>
+    <span class="track"><i data-w="${r[1]}"></i></span>
+    <span class="score" style="text-align:right;font-size:19px;color:${r[1]>60?'var(--bad)':'var(--accent)'}">${esc(r[2])}</span>
+  </div>`).join('')}</div>
+</div>`);
+
+// Roast 9 · El teléfono de Valde (screen time, donut)
+slides.push(`<div class="slide">
+  <div class="kicker">Informe de screen time</div>
+  <h2>El teléfono de Valde</h2>
+  <div class="split" style="align-items:center;margin-top:8px">
+    <div style="display:grid;place-items:center">${donut(R.telefono.apps, esc(R.telefono.pantalla), "de pantalla al día")}</div>
+    <div class="grid" style="gap:11px">${R.telefono.apps.map((p,i)=>`<div class="card frag" style="padding:13px 20px;display:flex;align-items:center;gap:14px">
+      <span style="width:18px;height:18px;border-radius:5px;background:${DONUT_COLORS[i%DONUT_COLORS.length]};flex-shrink:0"></span>
+      <span style="flex:1;font-size:19px;font-weight:600">${esc(p[0])}</span>
+      <b style="font-size:23px;color:var(--accent)">${p[1]}%</b>
+    </div>`).join('')}</div>
+  </div>
+</div>`);
+
+// Roast 10 · La curva de la noche (gráfico de barras con hitos)
+slides.push(`<div class="slide">
+  <div class="kicker">Estudio de rendimiento nocturno</div>
+  <h2>La curva de la noche de Valde</h2>
+  <div class="bars" style="height:44vh;margin-top:20px">${R.curvaNoche.map(p=>`
+    <div class="bar-col">
+      <div style="font-size:15px;font-weight:700;color:var(--ink);margin-bottom:8px;text-align:center;min-height:44px;display:flex;align-items:flex-end;justify-content:center">${esc(p[2])}</div>
+      <div class="bar ${p[1]>=90?'alt':''}" data-h="${Math.max(p[1],3)}"></div>
+      <div class="bar-lbl"><b>${esc(p[0])}</b></div>
+    </div>`).join('')}</div>
+  <p class="sub" style="font-size:17px;text-align:center;margin:14px auto 0">Energía medida en unidades de "una más y nos vamos".</p>
+</div>`);
+
+// Roast 11 · Expediente disciplinario
+slides.push(`<div class="slide">
+  <div class="kicker bad">Recursos humanos</div>
+  <h2>Expediente disciplinario</h2>
+  <p class="sub" style="margin-top:6px">Extracto de incidentes archivados. La versión completa no cabía en el servidor.</p>
+  <div class="rank">${R.expediente.map(e=>`<div class="rank-row frag">
+    <span class="pos" style="font-size:16px;width:120px">${esc(e[0])}</span>
+    <div class="body"><h3>${esc(e[1])}</h3><p>${esc(e[2])}</p></div>
+  </div>`).join('')}</div>
+</div>`);
+
+// Roast 12 · Crímenes contra la moda (galería de fotos)
+slides.push(`<div class="slide">
+  <div class="kicker warn">Archivo fotográfico</div>
+  <h2>Crímenes contra la moda</h2>
+  <p class="sub" style="margin-top:4px">Evidencia irrefutable. El comité recomienda no borrar jamás estos archivos.</p>
+  <div class="gallery" style="grid-template-columns:repeat(${R.looks.length},1fr)">
+    ${R.looks.map((l,i)=>`<div class="gal-item frag">
+      <div class="pilar-num">Prueba ${i+1}</div>
+      ${l.img
+        ? `<div class="gal-photo" style="background-image:url('${l.img}')"></div>`
+        : `<div class="gal-photo" style="display:grid;place-items:center"><div style="text-align:center;color:var(--muted);padding:10px"><div style="font-size:40px">📷</div><div class="ph-desc">Foto pendiente</div></div></div>`}
+      <div class="gal-cap"><div class="pilar-name" style="font-size:19px">${esc(l.cap)}</div><div class="pilar-desc">${esc(l.desc)}</div></div>
+    </div>`).join('')}
+  </div>
+</div>`);
+
+// Roast 13 · Certificaciones obtenidas
+slides.push(`<div class="slide">
+  <div class="kicker">Formación continua</div>
+  <h2>Certificaciones obtenidas</h2>
+  <div class="grid g2" style="flex:1;margin:14px 0;grid-auto-rows:1fr;gap:14px">
+    ${R.certificaciones.map(c=>`<div class="card frag" style="display:flex;flex-direction:column;justify-content:center">
+      <h3 style="font-size:26px">${esc(c[0])}</h3>
+      <p class="note" style="font-size:18px">${esc(c[1])}</p>
+    </div>`).join('')}
+  </div>
+</div>`);
+
+// Roast 14 · Aporte real al carrete
+slides.push(`<div class="slide">
+  <div class="kicker">Evaluación de desempeño grupal</div>
+  <h2>Aporte real al carrete</h2>
+  <p class="sub" style="margin-top:6px">Desglose por área de contribución, según encuesta interna anónima del grupo.</p>
+  <div class="skills" style="max-width:1050px">${R.aporteCarrete.map(a=>`<div class="skill frag" style="grid-template-columns:430px 1fr 70px">
+    <span class="name" style="font-size:20px">${esc(a[0])}</span>
+    <span class="track"><i data-w="${a[1]}"></i></span>
+    <span class="score" style="color:${a[1]<30?'var(--bad)':'var(--accent)'}">${a[1]}%</span>
+  </div>`).join('')}</div>
+</div>`);
+
+// Roast 15 · Marido funcional vs método Valde
+slides.push(`<div class="slide">
+  <div class="kicker">Benchmark de mercado</div>
+  <h2>Marido funcional vs. método Valde</h2>
+  <div class="rank" style="gap:10px">${R.vsMarido.map(v=>`<div class="rank-row frag" style="display:grid;grid-template-columns:1fr 1.3fr 1.3fr;gap:18px;align-items:center">
+    <b style="font-size:19px">${esc(v[0])}</b>
+    <div><span style="font-size:12px;color:var(--accent);text-transform:uppercase;font-weight:800;letter-spacing:1px">Marido funcional</span><p style="font-size:18px;margin-top:2px">${esc(v[1])}</p></div>
+    <div><span style="font-size:12px;color:var(--bad);text-transform:uppercase;font-weight:800;letter-spacing:1px">Método Valde</span><p style="font-size:18px;margin-top:2px;color:var(--muted)">${esc(v[2])}</p></div>
+  </div>`).join('')}</div>
+</div>`);
+
+// Roast 16 · Cifras verificadas por el comité
+slides.push(`<div class="slide">
+  <div class="kicker">Anexo estadístico</div>
+  <h2>Cifras verificadas por el comité</h2>
+  <div class="grid g2" style="flex:1;margin:14px 0;grid-auto-rows:1fr;gap:16px">
+    ${R.datosCuriosos.map(d=>`<div class="card frag rel-card">
+      <div class="label">${esc(d[0])}</div>
+      <div class="kpi gold" style="font-size:80px">${esc(d[1])}</div>
+      <p class="note">${esc(d[2]||'')}</p>
+    </div>`).join('')}
+  </div>
+</div>`);
+
+// Roast 17 · Predicciones para la boda (probabilidades)
+slides.push(`<div class="slide">
+  <div class="kicker good">Modelo predictivo</div>
+  <h2>Predicciones para la boda</h2>
+  <p class="sub" style="margin-top:6px">Probabilidades calculadas por el comité con data histórica del empleado.</p>
+  <div class="skills" style="max-width:1050px">${R.predicciones.map(p=>`<div class="skill frag" style="grid-template-columns:1fr 320px 80px">
+    <span class="name" style="font-size:21px">${esc(p[0])}</span>
+    <span class="track"><i data-w="${p[1]}"></i></span>
+    <span class="score">${p[1]}%</span>
+  </div>`).join('')}</div>
+</div>`);
+
+// Roast 8 · Cláusulas del nuevo contrato
+slides.push(`<div class="slide">
+  <div class="kicker">Anexo legal</div>
+  <h2>Cláusulas del nuevo contrato</h2>
+  <p class="sub" style="margin-top:6px">Condiciones negociadas por el comité en representación del empleado.</p>
+  <div class="rank">${R.clausulas.map(c=>`<div class="rank-row frag">
+    <span class="pos" style="font-size:19px;width:70px">${esc(c[0])}</span>
+    <div class="body"><p style="font-size:23px;color:var(--ink);line-height:1.35">${esc(c[1])}</p></div>
+  </div>`).join('')}</div>
+</div>`);
+
+// Foto grupo amigos (cierra Eventos canónicos)
+// ===== SECCIÓN 4: VEREDICTO =====
+slides.push(`<div class="slide center">
+  <div class="section-num">03</div>
+  <div class="kicker good">Sección 3</div>
+  <h1>Veredicto</h1>
+  <p class="sub">La evaluación final del comité: fortalezas, áreas de mejora y la resolución.</p>
+</div>`);
+
+// Slide 1 de Veredicto · Análisis FODA
+slides.push(`<div class="slide" style="padding-top:3vh;padding-bottom:3vh">
+  <div class="kicker" style="margin-bottom:4px">Análisis estratégico</div>
+  <h2 style="font-size:40px">Análisis FODA</h2>
+  <div class="foda">
+    <div class="foda-card f frag"><h3>💪 Fortalezas</h3><ul>${D.foda.fortalezas.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+    <div class="foda-card o frag"><h3>🚀 Oportunidades</h3><ul>${D.foda.oportunidades.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+    <div class="foda-card d frag"><h3>⚠️ Debilidades</h3><ul>${D.foda.debilidades.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+    <div class="foda-card a frag"><h3>🔥 Amenazas</h3><ul>${D.foda.amenazas.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+  </div>
+</div>`);
+
+// Slide 2 de Veredicto · Resumen Ejecutivo (reveal título→contenido con flechas)
+slides.push(`<div class="slide">
+  <div class="kicker good">Veredicto del comité</div>
+  <h2>Resumen Ejecutivo</h2>
+  <p class="sub">${esc(D.resumenEjecutivo)}</p>
+  <div class="grid g3" style="margin-top:auto;margin-bottom:auto;gap:26px">
+    <div class="card frag verd-card"><div class="label">Nota global</div>
+      <div class="frag"><div class="kpi gold" style="font-size:72px">${esc(D.notaGlobal)}<small> / 7,0</small></div><p class="note">Evaluación consolidada del periodo (escala 1–7).</p></div>
+    </div>
+    <div class="card frag verd-card"><div class="label">Recomendación</div>
+      <div class="frag"><div class="kpi green" style="font-size:48px">ASCENDER</div><p class="note">al cargo de <b style="font-size:36px;color:var(--ink)">💍 ${esc(D.promocion)}</b></p></div>
+    </div>
+    <div class="card frag verd-card"><div class="label">Fecha efectiva</div>
+      <div class="frag"><div class="kpi blue" style="font-size:42px">${esc(D.fechaBoda)}</div><p class="note">Matrimonio con ${esc(D.prometida)}.</p></div>
+    </div>
+  </div>
+</div>`);
+
+// ===== CIERRE (brindis) =====
+
+slides.push(`<div class="slide center">
+  <div class="kicker" style="font-size:18px">Cierre</div>
+  <h2 style="font-size:58px">¡Salud, Valde! 🥂</h2>
+  <p class="sub" style="font-size:27px;margin-top:16px">Gracias por ${esc(D.antiguedad.replace('≈',''))} de carretes, historias y lealtad.<br>
+     Que la nueva etapa con ${esc(D.prometida)} sea aún mejor.</p>
+  <img src="Fotos/valde-brindis.jpeg" style="height:48vh;margin-top:18px;border-radius:16px;box-shadow:0 12px 32px rgba(31,41,55,.18)">
+</div>`);
+
+// ===== ¿A CUÁL MÁS SMASH? (elección del novio) =====
+slides.push(`<div class="slide center">
+  <div class="kicker">Dinámica · elección del novio 💍</div>
+  <h1>¿A cuál le harías<br>más… smash? 💋</h1>
+  <p class="sub">Última oportunidad, Valde. Estas son las candidatas.<br>Elige a la más atractiva. Sin presión. 😏</p>
+</div>`);
+
+slides.push((()=>{
+  const As=D.asistentes||[];
+  const cols=Math.min(Math.max(As.length,1),4);
+  return `<div class="slide">
+    <div class="kicker">Elección del novio</div>
+    <h2>Las candidatas 💃</h2>
+    <div class="smash-grid" style="grid-template-columns:repeat(${cols},1fr)">
+      ${As.map(a=>`<div class="smash-card frag">
+        <div class="smash-heart">❤️</div>
+        <div class="smash-photo" style="${a.img?`background-image:url('${a.img}')`:''}">
+          ${a.img?'':`<div><div class="ph-ico">📷</div><div class="ph-mini">Foto</div></div>`}
+        </div>
+        <div class="smash-name">${esc(a.nombre)}</div>
+        ${a.tag?`<div class="smash-tag">${esc(a.tag)}</div>`:''}
+      </div>`).join('')}
+    </div>
+  </div>`;
+})());
+
+// ===== TRIVIA (estilo concurso) =====
+slides.push(`<div class="slide center">
+  <div class="kicker">Trivia · estilo concurso</div>
+  <h1>¿Cuánto<br>conocés a Valde?</h1>
+  <p class="sub">10 preguntas. 4 alternativas. El que falla… ya sabe. 🍺</p>
+</div>`);
+
+(D.quiz||[]).forEach((it,i)=>{
+  slides.push(`<div class="slide">
+    <div class="kicker">Pregunta ${i+1} de ${D.quiz.length}</div>
+    <div class="quiz-q">${esc(it.q)}</div>
+    <div class="quiz-ops">
+      ${it.op.map((o,k)=>`<div class="quiz-op frag"><span class="q-letter">${'ABCD'[k]}</span><span class="q-text">${esc(o)}</span></div>`).join('')}
+    </div>
+  </div>`);
+});
+
+// ===== SECCIÓN DINÁMICAS / JUEGOS — pendiente, la armamos después =====
+// (Los juegos quedan en DATA.juegos para cuando definamos esta parte.)
+
+// ---------- RENDER & NAVEGACIÓN ----------
+const deck=document.getElementById('deck');
+deck.innerHTML=slides.join('');
+const els=[...document.querySelectorAll('.slide')];
+let idx=0, frag=0;
+document.getElementById('tot').textContent=els.length;
+document.getElementById('periodo').textContent="Periodo "+D.periodoEvaluado;
+
+function animateIn(el){
+  el.querySelectorAll('.bar[data-h]').forEach(b=>setTimeout(()=>b.style.height=b.dataset.h+'%',60));
+  el.querySelectorAll('.skill .track i[data-w]').forEach(i=>setTimeout(()=>i.style.width=i.dataset.w+'%',60));
+  el.querySelectorAll('.gauge-arc[data-off]').forEach(a=>{a.style.transition='stroke-dashoffset 1.2s ease';setTimeout(()=>a.style.strokeDashoffset=a.dataset.off,80);});
+}
+function frags(el){return [...el.querySelectorAll('.frag')];}
+function applyFrags(el,count){frags(el).forEach((f,i)=>f.classList.toggle('shown',i<count));syncFootage(el);}
+// Reproduce el video del último wrapper revelado (data-foot); pausa los demás.
+function syncFootage(el){
+  const wraps=[...el.querySelectorAll('[data-foot]')];
+  if(!wraps.length) return;
+  let top=-1; wraps.forEach((w,k)=>{if(w.classList.contains('shown'))top=k;});
+  wraps.forEach((w,k)=>{
+    const v=w.querySelector('video'); if(!v)return;
+    if(k===top){ w.style.zIndex=2; if(v.paused){try{v.currentTime=0;}catch(_){} v.play().catch(()=>{});} }
+    else { w.style.zIndex=1; if(!v.paused) v.pause(); }
+  });
+}
+// fc: cantidad de fragmentos visibles al entrar. undefined/0 = ninguno (revela con flechas); -1 = todos.
+function show(n,fc){
+  idx=Math.max(0,Math.min(els.length-1,n));
+  els.forEach((e,i)=>{const act=i===idx;e.classList.toggle('active',act);if(!act)e.querySelectorAll('video').forEach(v=>v.pause());});
+  const total=frags(els[idx]).length;
+  frag = fc===undefined ? 0 : (fc<0 ? total : Math.min(fc,total));
+  applyFrags(els[idx],frag);
+  document.getElementById('cur').textContent=idx+1;
+  document.getElementById('bar').style.width=((idx+1)/els.length*100)+'%';
+  animateIn(els[idx]);
+  els[idx].querySelectorAll('video:not(.footage-vid)').forEach(v=>v.play().catch(()=>{}));
+}
+function next(){
+  const total=frags(els[idx]).length;
+  if(frag<total){frag++;applyFrags(els[idx],frag);}
+  else show(idx+1,0);
+}
+function prev(){
+  if(frag>0){frag--;applyFrags(els[idx],frag);}
+  else show(idx-1,-1);   // al volver, muestra todos los fragmentos de la slide anterior
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();next();}
+  else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();prev();}
+  else if(e.key==='Home'){show(0,0);} else if(e.key==='End'){show(els.length-1,-1);}
+  else if(e.key.toLowerCase()==='f'){if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen();}
+});
+show(0);
+</script>
+</body>
+</html>
