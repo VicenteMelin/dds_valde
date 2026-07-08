@@ -28,32 +28,38 @@ Navegación: flechas ← →, barra espaciadora, o botones abajo. Tecla **F** = 
     Todo se edita en `DATA.roast` (claves: diccionario, respuesta, telefono, curvaNoche, expediente,
     looks, certificaciones, aporteCarrete, vsMarido, datosCuriosos).
 
-### Fotos nuevas opcionales (si no existen, sale placeholder)
-| Archivo | Aparece en |
-|---------|-----------|
-| valde-antes.jpeg / valde-despues.jpeg | Evolución del activo físico (pon la ruta en `DATA.roast.evolucion`) |
-| testigo-1/2/3.png | Testimonios del comité (campo `img` en `DATA.roast.testimonios`) |
+### Fotos ya asignadas (de las que subiste en Fotos/Valde/)
+| Archivo en Fotos/ | Qué es | Aparece en |
+|-------------------|--------|-----------|
+| valde-perfil.jpeg | Retrato nocturno | Ficha del empleado (avatar) |
+| valde-colegio-baldosa.jpeg | Joven en ropa interior ("baldosa en bolas") | Timeline · Colegio |
+| valde-universidad.jpeg | Selfie "verduleros" con lentes | Timeline · Universidad |
+| valde-titulacion-terno.jpeg | De terno junto al mar | Timeline · Trabajo |
+| valde-estilo-cowboy.jpeg | Sombrero vaquero + pañuelo | Pilar · Estilo |
+| valde-nutricion.jpeg | Comiendo (apuntando a la comida) | Pilar · Nutrición |
+| valde-relajo-playa.jpeg | En shorts frente al mar con perro | Pilar · Relajo |
+| valde-hidratacion-juego.jpeg | Juego de vasos / carrete | Pilar · Hidratación |
+| valde-grupo-abrazo.jpeg | Grupo abrazándolo ("Valde un grande") | Equipo · Los que lo aguantan |
+| valde-grupo-guillotina.jpeg | Grupo con guillotina | Equipo · Eventos culturales |
+| valde-carrete-vasos.jpeg | Grupo en el juego de vasos | Equipo · Los del carrete |
+| valde-conquista-beso.jpeg | Una chica lo besa en la mejilla | Trayectoria (con la frase legendaria) |
+| valde-especimen-cama.jpeg | Tirado en la cama | Funnel · "el espécimen en su hábitat" |
+| valde-tactica-cara.jpeg | Cara chistosa | Funnel · Táctica "cara de galán" |
+| valde-tactica-pecho.jpeg | Camisa abierta | Funnel · Táctica "descuido sensual" |
+| valde-tactica-ojos.jpeg | Ojos saltones (sticker) | Funnel · Táctica "mirada tierna" |
+| valde-baile-tactica.mp4 | Bailando (video) | Funnel · Táctica "baile de apareamiento" |
+| footage-1.mp4 | Selfie curado hablando a la cámara | Footage inédito (1) |
+| footage-2.mp4 | Gateando en la piscina | Footage inédito (2) |
+| valde-brindis-amigos.jpeg | Amigos felices | Cierre · Brindis final |
 
-## Fotos que espera la presentación (súbelas con estos nombres a `Fotos/`)
-| Archivo | Aparece en |
-|---------|-----------|
-| valde-perfil-empleado.png | Ficha del empleado (avatar) |
-| valde-colegio.jpeg | Timeline · Colegio |
-| valde-universidad.jpeg | Timeline · Universidad |
-| valde-trabajo.jpeg | Timeline · Trabajo |
-| valde-pilar-1..4.jpeg | Pilares estratégicos (4 fotos) |
-| valde-grupo-viajes / -deporte / -carrete.jpeg | El equipo (grupales) |
-| valde-pareja.jpeg | Cómo conoció a la novia |
-| valde-trayectoria.jpeg | Sección Trayectoria (con la frase legendaria) |
-| valde-especimen.jpeg | Funnel de conversión ("el espécimen") |
-| valde-brindis.jpeg | Cierre · Brindis final |
-| Exes/ex1.png, ex2.png, ex3.png | KPI · Portafolio de relaciones |
-| Novia/valde-novia.png | KPI · Portafolio (la actual, 💍) |
-| Novia/novia-mensaje-inicial.mp4 | Apertura · mensaje de la novia (video) |
-| footage-1.mp4, footage-2.mp4 | "Footage inédito" (2 videos en secuencia) |
+Foto extra sin usar: valde-deporte-estadio.jpeg (por si quieres cambiar alguna).
+Las fotos originales quedan intactas en `Fotos/Valde/`.
 
-Para cambiar una foto: edita la ruta `Fotos/...` en el slide correspondiente
-dentro de `presentacion.html` (o en el objeto `DATA`).
+## Fotos que faltan (placeholders — personas/contenido específico)
+- `Fotos/Exes/ex1..3.png` y `Fotos/Novia/valde-novia.png`: exes y novia.
+- `Fotos/Novia/novia-mensaje-inicial.mp4`: video de saludo de la novia (apertura).
+- `Fotos/Smash/asistente-*.png`: caras de los asistentes para "¿a cuál más smash?".
+- Otros placeholders del deck (testigos, antes/después) si los usas.
 
 ## Estructura (actos)
 

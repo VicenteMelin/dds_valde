@@ -458,24 +458,24 @@ const DATA = {
 
   // --- TIMELINE (Acto 2) ---
   timeline: [
-    { when:"Colegio",       title:"Los inicios",        what:"[Anécdota de colegio: cómo era, apodo, el primer amor platónico, la cana legendaria...]", img:"Fotos/valde-colegio.jpeg" },
+    { when:"Colegio",       title:"Los inicios",        what:"[Anécdota de colegio: cómo era, apodo, el primer amor platónico, la cana legendaria...]", img:"Fotos/valde-colegio-baldosa.jpeg" },
     { when:"Universidad",   title:"Años de formación",  what:"[Carrera, carrete universitario, el grupo de amigos, la etapa más salvaje...]", img:"Fotos/valde-universidad.jpeg" },
-    { when:"Trabajo",       title:"Vida profesional",   what:"[Dónde trabaja, cómo es de pega, el ascenso, el viaje épico...]", img:"Fotos/valde-trabajo.jpeg" },
+    { when:"Trabajo",       title:"Vida profesional",   what:"[Dónde trabaja, cómo es de pega, el ascenso, el viaje épico...]", img:"Fotos/valde-titulacion-terno.jpeg" },
   ],
 
   // --- Pilares estratégicos del empleado {foto, pilar, desc} ---
   fotosChistosas: [
-    {img:"Fotos/valde-pilar-1.jpeg", pilar:"Estilo",      desc:"Imagen de marca personal"},
-    {img:"Fotos/valde-pilar-2.jpeg", pilar:"Nutrición",   desc:"Combustible de alto rendimiento"},
-    {img:"Fotos/valde-pilar-3.jpeg", pilar:"Relajo",      desc:"Gestión del descanso y el ocio"},
-    {img:"Fotos/valde-pilar-4.jpeg", pilar:"Hidratación", desc:"Reposición de líquidos 24/7"},
+    {img:"Fotos/valde-estilo-cowboy.jpeg", pilar:"Estilo",      desc:"Imagen de marca personal"},
+    {img:"Fotos/valde-nutricion.jpeg", pilar:"Nutrición",   desc:"Combustible de alto rendimiento"},
+    {img:"Fotos/valde-relajo-playa.jpeg", pilar:"Relajo",      desc:"Gestión del descanso y el ocio"},
+    {img:"Fotos/valde-hidratacion-juego.jpeg", pilar:"Hidratación", desc:"Reposición de líquidos 24/7"},
   ],
 
   // --- Fotos grupales (slide Equipo) {foto, caption} ---
   equipoFotos: [
-    {img:"Fotos/valde-grupo-viajes.jpeg",  cap:"Los de los viajes"},
-    {img:"Fotos/valde-grupo-deporte.jpeg", cap:"Los del deporte"},
-    {img:"Fotos/valde-grupo-carrete.jpeg", cap:"Los del carrete"},
+    {img:"Fotos/valde-grupo-abrazo.jpeg",     cap:"Los que lo aguantan 🤗"},
+    {img:"Fotos/valde-grupo-guillotina.jpeg", cap:"Los de los eventos culturales 🎭"},
+    {img:"Fotos/valde-carrete-vasos.jpeg",    cap:"Los del carrete 🍻"},
   ],
 
   // --- Cómo conoció a la novia (último evento canónico) ---
@@ -517,10 +517,10 @@ const DATA = {
     // Tácticas de conquista que se revelan ENTRE los pasos del funnel.
     // video: usa un archivo de video · img: ruta de foto · ph: texto del placeholder si aún no hay foto
     tacticas: [
-      {titulo:"[Táctica 1]", desc:"[Descripción del movimiento estrella de Valde]", ph:"[Foto pendiente]"},
-      {titulo:"[Táctica 2]", desc:"[Descripción]", ph:"[Foto pendiente]"},
-      {titulo:"[Táctica 3]", desc:"[Descripción]", ph:"[Foto pendiente]"},
-      {titulo:"[Táctica 4]", desc:"[Descripción]", ph:"[Foto o video pendiente]"},
+      {titulo:"La cara de galán", desc:"Su mejor ángulo. Dicen que es infalible.", img:"Fotos/valde-tactica-cara.jpeg"},
+      {titulo:"El descuido sensual", desc:"Un botón de más, como quien no quiere la cosa.", img:"Fotos/valde-tactica-pecho.jpeg"},
+      {titulo:"La mirada tierna", desc:"Ojitos que derriten. O que asustan un poco.", img:"Fotos/valde-tactica-ojos.jpeg"},
+      {titulo:"El baile de apareamiento", desc:"Nunca lo vimos funcionar. Igual insiste.", video:"Fotos/valde-baile-tactica.mp4"},
     ],
     // mapa de conquistas (lugar -> nivel 0-100 para la barra)
     conquistas: [["Santiago",80],["Viña / la playa",55],["En el extranjero",30],["Carrete de la U",70]],
@@ -867,7 +867,7 @@ slides.push(`<div class="slide" style="padding-top:1.5cqh;padding-bottom:1cqh">
   <div class="li-wrap">
     <div class="li-card li-profile">
       <div class="li-banner"><span class="li-banner-txt">#[hashtag de Valde]</span></div>
-      <img class="li-avatar" src="Fotos/valde-perfil-empleado.png" alt="Valde">
+      <img class="li-avatar" src="Fotos/valde-perfil.jpeg" alt="Valde">
       <div class="li-body">
         <div class="li-name">${esc(P.nombreCompleto)} <span class="li-badge">✓</span> <span class="li-1er">· 1.er</span></div>
         <div class="li-headline">💍 ${esc(P.expCargo)}</div>
@@ -969,7 +969,7 @@ slides.push(`<div class="slide">
       <div class="chips" style="margin-top:20px"><span class="chip">💘 Relaciones</span><span class="chip">💋 Conquistas</span><span class="chip">🍻 Eventos canónicos</span></div>
     </div>
     <div style="text-align:center">
-      <img src="Fotos/valde-trayectoria.jpeg" style="height:60cqh;border-radius:16px;box-shadow:0 12px 32px rgba(31,41,55,.18)">
+      <img src="Fotos/valde-conquista-beso.jpeg" style="height:60cqh;border-radius:16px;box-shadow:0 12px 32px rgba(31,41,55,.18)">
       <div class="pquote"><span class="pq-text">"[Frase legendaria de Valde]"</span><span class="pq-by">— Diego "Valde" Valdebenito</span></div>
     </div>
   </div>
@@ -1051,7 +1051,7 @@ slides.push(`<div class="slide cf-dyn">
   <div class="kicker">Embudo de conquista · método Valde</div>
   <h2>Funnel de conversión</h2>
   <div class="cf-stage">
-    <div class="cf-tac"><div class="cf-photo" style="background-image:url('Fotos/valde-especimen.jpeg');height:49cqh"></div><div class="cf-tac-txt"><div class="cf-tac-k">El espécimen</div><h3>En su hábitat natural</h3></div></div>
+    <div class="cf-tac"><div class="cf-photo" style="background-image:url('Fotos/valde-especimen-cama.jpeg');height:49cqh"></div><div class="cf-tac-txt"><div class="cf-tac-k">El espécimen</div><h3>En su hábitat natural</h3></div></div>
     ${(()=>{
       let out='';
       M.funnel.forEach((f,i)=>{
@@ -1411,7 +1411,7 @@ slides.push(`<div class="slide center">
   <h2 style="font-size:58px">¡Salud, Valde! 🥂</h2>
   <p class="sub" style="font-size:27px;margin-top:16px">Gracias por ${esc(D.antiguedad.replace('≈',''))} de carretes, historias y lealtad.<br>
      Que la nueva etapa con ${esc(D.prometida)} sea aún mejor.</p>
-  <img src="Fotos/valde-brindis.jpeg" style="height:48cqh;margin-top:18px;border-radius:16px;box-shadow:0 12px 32px rgba(31,41,55,.18)">
+  <img src="Fotos/valde-brindis-amigos.jpeg" style="height:48cqh;margin-top:18px;border-radius:16px;box-shadow:0 12px 32px rgba(31,41,55,.18)">
 </div>`);
 
 // ===== ¿A CUÁL MÁS SMASH? (elección del novio) =====
