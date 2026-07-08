@@ -37,7 +37,7 @@ body{
 #deck{position:fixed;top:36px;bottom:34px;left:0;right:0;}
 .slide{
   position:absolute;inset:0;display:none;flex-direction:column;
-  padding:2.5vh 6vw;opacity:0;transition:opacity .45s ease;
+  padding:2.5cqh 6cqw;opacity:0;transition:opacity .45s ease;
   animation:none;
 }
 .slide.active{display:flex;opacity:1;animation:slideIn .5s ease;}
@@ -115,7 +115,7 @@ h3{font-size:25px;font-weight:700}
 
 /* ---------- Footage (videos) ---------- */
 .foot-wrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
-.footage-vid{max-height:58vh;max-width:88%;border-radius:16px;box-shadow:0 12px 32px rgba(31,41,55,.2);object-fit:contain;background:#000}
+.footage-vid{max-height:58cqh;max-width:88%;border-radius:16px;box-shadow:0 12px 32px rgba(31,41,55,.2);object-fit:contain;background:#000}
 
 /* ---------- Pull quote ---------- */
 .pquote{margin-top:22px;position:relative;text-align:center;padding-top:24px}
@@ -190,8 +190,8 @@ h3{font-size:25px;font-weight:700}
 .cf-step{width:44px;height:44px;flex-shrink:0;border-radius:50%;background:var(--accent);color:#fff;font-weight:800;display:grid;place-items:center;font-size:22px}
 .cf-lbl{flex:1;font-size:24px;font-weight:600;color:var(--ink)}
 .cf-val{font-size:28px;font-weight:800;color:var(--accent)}
-.cf-tac{position:absolute;right:0;top:2px;width:40%;height:62vh;background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 34px rgba(31,41,55,.14);overflow:hidden;display:flex;flex-direction:column}
-.cf-photo{width:100%;height:44vh;object-fit:contain;display:block;background-size:contain;background-repeat:no-repeat;background-position:center;background-color:var(--panel);flex-shrink:0}
+.cf-tac{position:absolute;right:0;top:2px;width:40%;height:62cqh;background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 34px rgba(31,41,55,.14);overflow:hidden;display:flex;flex-direction:column}
+.cf-photo{width:100%;height:44cqh;object-fit:contain;display:block;background-size:contain;background-repeat:no-repeat;background-position:center;background-color:var(--panel);flex-shrink:0}
 .cf-photo.ph{display:grid;place-items:center;background:repeating-linear-gradient(45deg,#eef6ef,#eef6ef 12px,#e0eee3 12px,#e0eee3 24px);color:var(--muted);text-align:center}
 .cf-ph-desc{color:var(--gold);font-style:italic;font-size:16px;margin-top:8px;padding:0 18px;max-width:30ch}
 .cf-tac-txt{padding:16px 26px;flex:1;display:flex;flex-direction:column;justify-content:center}
@@ -266,10 +266,10 @@ h3{font-size:25px;font-weight:700}
 
 .split{display:grid;grid-template-columns:1fr 1fr;gap:30px;flex:1;align-items:center}
 .split.wide-left{grid-template-columns:1.3fr 1fr}
-.split > .photo,.split > .photo-anim{height:62vh}
+.split > .photo,.split > .photo-anim{height:62cqh}
 
 /* ---------- Gráfico de barras (CSS) ---------- */
-.bars{display:flex;align-items:flex-end;gap:18px;height:46vh;padding-top:10px}
+.bars{display:flex;align-items:flex-end;gap:18px;height:46cqh;padding-top:10px}
 .bar-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
 .bar{width:70%;border-radius:10px 10px 4px 4px;background:linear-gradient(180deg,var(--accent),#00612a);
   height:0;transition:height 1s cubic-bezier(.2,.7,.2,1);position:relative;min-height:4px}
@@ -325,7 +325,7 @@ h3{font-size:25px;font-weight:700}
 .scatter .trend{position:absolute;left:0;bottom:0;width:140%;height:2px;background:var(--bad);transform-origin:left;transform:rotate(-32deg);opacity:.7}
 
 /* stamp */
-.stamp{position:absolute;top:50%;right:8vw;transform:translateY(-50%) rotate(-14deg);
+.stamp{position:absolute;top:50%;right:8cqw;transform:translateY(-50%) rotate(-14deg);
   border:6px solid var(--accent-2);color:var(--accent-2);font-weight:900;font-size:34px;
   letter-spacing:3px;padding:14px 26px;border-radius:14px;opacity:.92;text-transform:uppercase}
 
@@ -336,14 +336,14 @@ h3{font-size:25px;font-weight:700}
 .two-col-list li::before{content:"›";position:absolute;left:0;color:var(--accent);font-weight:800}
 .two-col-list li b{color:var(--ink)}
 ul.clean{list-style:none}
-.section-num{font-size:160px;font-weight:900;color:rgba(31,41,55,.05);position:absolute;right:5vw;top:8vh;line-height:1}
+.section-num{font-size:160px;font-weight:900;color:rgba(31,41,55,.05);position:absolute;right:5cqw;top:8cqh;line-height:1}
 
 /* ---------- ¿A cuál más smash? (elección del novio) ---------- */
 .smash-grid{display:grid;gap:20px;flex:1;margin-top:16px;align-content:center}
 .smash-card{background:linear-gradient(180deg,var(--panel),var(--panel-2));border:1px solid var(--line);
   border-radius:16px;box-shadow:0 6px 18px rgba(31,41,55,.08);padding:16px 14px;display:flex;
   flex-direction:column;align-items:center;position:relative}
-.smash-photo{height:clamp(84px,20vh,200px);aspect-ratio:1/1;width:auto;max-width:100%;border-radius:50%;
+.smash-photo{height:clamp(84px,20cqh,200px);aspect-ratio:1/1;width:auto;max-width:100%;border-radius:50%;
   background-size:cover;background-position:center top;
   border:4px solid var(--accent);background-color:var(--panel-2);display:grid;place-items:center;
   color:var(--muted);text-align:center;overflow:hidden}
@@ -354,73 +354,33 @@ ul.clean{list-style:none}
 .smash-heart{position:absolute;top:10px;right:12px;font-size:20px}
 
 /* ============================================================
-   RESPONSIVE — celular como webapp (vertical y HORIZONTAL)
-   Se activa por poco ANCHO (retrato) o poca ALTURA (landscape phone).
-   La tipografía escala con el viewport (vmin/vh) para que cada lámina
-   entre en pantalla; si aun así no cabe, el slide hace scroll sin cortar.
+   ESCALAR-PARA-CABER (webapp en celular / cualquier pantalla)
+   El contenido se maqueta en un lienzo fijo 16:9 (#stage) y se
+   escala completo para caber en la pantalla, igual que en la tele.
+   Un tap = lámina completa siguiente. Sin scroll, sin cortes.
+   El JS calcula la escala; las medidas internas usan cqh/cqw
+   (relativas al lienzo, no a la ventana).
    ============================================================ */
+#deck{overflow:hidden}
+#stage{position:absolute;top:0;left:0;width:1280px;height:650px;
+       transform-origin:top left;container-type:size;will-change:transform}
+
+/* Pantallas chicas/bajas: barras y ayuda más compactas (el lienzo escala solo) */
 @media (max-width:820px), (max-height:600px){
-  #deck{top:30px;bottom:44px}
   .topbar{height:30px;font-size:11px;padding:0 12px}
   .footer{height:44px;gap:10px;padding:0 12px}
   .nav-btn{width:44px;height:34px;font-size:20px}
   .hint{display:none}
-  /* Centrado cuando cabe; si no cabe, scroll desde arriba (safe center) */
-  .slide{padding:2vh 4.5vw;gap:8px;justify-content:safe center;
-         overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
-  /* Tipografía fluida: mínimo legible, ideal por viewport, tope de escritorio */
-  h1{font-size:clamp(26px,6.2vmin,74px);line-height:1.05;letter-spacing:-.5px}
-  h2{font-size:clamp(20px,4.6vmin,48px)}
-  h3{font-size:clamp(15px,2.6vmin,25px)}
-  .kicker{font-size:clamp(10px,1.6vmin,16px);letter-spacing:2px;margin-bottom:5px}
-  .sub{font-size:clamp(13px,2.3vmin,24px);margin-top:8px;line-height:1.4}
-  .chip{font-size:clamp(11px,1.8vmin,16px);padding:5px 12px}
-  .kpi{font-size:clamp(28px,5.5vmin,58px)}
-  .kpi small{font-size:clamp(13px,2vmin,22px)}
-  .rel-card .kpi{font-size:clamp(32px,6vmin,78px)}
-  .card .label,.card .note,.pilar-desc,.verd-card .label,.verd-card .note{font-size:clamp(12px,1.9vmin,18px)}
-  .quiz-q{font-size:clamp(17px,3.2vmin,34px);padding:clamp(12px,2vmin,30px) clamp(16px,3vmin,40px)}
-  .q-letter{width:clamp(30px,5vmin,48px);height:clamp(30px,5vmin,48px);font-size:clamp(15px,2.5vmin,24px)}
-  .q-text{font-size:clamp(14px,2.5vmin,25px)}
-  .pq-text{font-size:clamp(18px,3.2vmin,34px)} .pquote::before{font-size:clamp(48px,7vmin,88px)}
-  .pilar-name,.team-cap{font-size:clamp(16px,2.5vmin,24px)}
-  .ptl-name{font-size:clamp(16px,2.6vmin,26px)} .ptl-cap{font-size:clamp(12px,1.9vmin,15px)}
-  .foda-card h3{font-size:clamp(17px,2.8vmin,31px)}
-  .foda-card li{font-size:clamp(14px,2.3vmin,26px);padding-left:24px}
-  .cf-lbl{font-size:clamp(15px,2.5vmin,24px)}
-  .cf-step{width:clamp(32px,5vmin,44px);height:clamp(32px,5vmin,44px);font-size:clamp(16px,2.6vmin,22px)}
-  /* Perfil estilo LinkedIn: encoger banner, avatar y paddings */
-  .li-banner{height:clamp(52px,9vmin,104px)}
-  .li-banner-txt{font-size:clamp(19px,4vmin,46px);right:16px}
-  .li-avatar{width:clamp(60px,12vmin,128px);height:clamp(60px,12vmin,128px);
-             top:clamp(20px,4vmin,38px);left:clamp(16px,3vmin,32px);border-width:4px}
-  .li-body{padding:clamp(36px,7vmin,64px) clamp(16px,3vmin,36px) clamp(10px,2vmin,20px)}
-  .li-name{font-size:clamp(18px,3.1vmin,31px)}
-  .li-headline{font-size:clamp(14px,2.5vmin,23px);margin-top:6px}
-  .li-cargo-detail,.li-realrole,.li-meta,.li-conn,.li-org,.li-1er{font-size:clamp(12px,2vmin,16px)}
-  .li-h3{font-size:clamp(15px,2.3vmin,20px)}
-  .li-about,.li-exp-sub,.li-exp-note{font-size:clamp(12px,1.9vmin,15px)}
-  .li-exp b{font-size:clamp(14px,2.3vmin,18px)}
-  .li-exp-ico{width:clamp(30px,5vmin,40px);height:clamp(30px,5vmin,40px);font-size:clamp(16px,2.6vmin,21px)}
-  .li-btn{font-size:clamp(12px,2vmin,16px);padding:8px 18px}
-  .li-side .li-card{padding:12px 16px}
-  /* Medios que no desborden */
-  .slide img,.slide video{max-width:100%!important}
-  .slide [style*="width:"][style*="px"]{max-width:100%}
+  #deck{top:30px;bottom:44px}
 }
 
-/* Solo ANCHO chico (retrato / phones angostos): apilar grids en 1 columna */
-@media (max-width:768px){
-  .slide img,.slide video{height:auto!important}
-  .slide [style*="grid-template-columns"],
-  .grid.g2,.grid.g3,.grid.g4,.foda,.quiz-ops,.split,.li-wrap,.gallery,.skill{
-    grid-template-columns:1fr!important;
-  }
-  /* Candidatas: 2 columnas en retrato (10 en 1 columna quedaría larguísimo) */
-  .slide .smash-grid[style]{grid-template-columns:1fr 1fr!important}
-  .smash-card{min-width:0}
-  .smash-photo{height:auto;width:100%;max-width:160px}
-  .smash-name{font-size:16px} .smash-tag{font-size:12px}
+/* Aviso para girar el teléfono (solo en vertical): el lienzo es 16:9 y luce
+   mucho mejor en horizontal / al espejar a la TV. */
+.rotate-hint{display:none}
+@media (orientation:portrait) and (max-width:600px){
+  .rotate-hint{display:flex;position:fixed;z-index:60;top:46px;left:50%;transform:translateX(-50%);
+    align-items:center;gap:8px;background:var(--accent);color:#fff;font-weight:700;font-size:13px;
+    padding:9px 16px;border-radius:99px;box-shadow:0 8px 20px rgba(0,0,0,.22);white-space:nowrap}
 }
 </style>
 </head>
@@ -433,6 +393,7 @@ ul.clean{list-style:none}
   <span id="periodo"></span>
 </div>
 
+<div class="rotate-hint">🔄 Gira el teléfono para verlo en grande</div>
 <div id="deck"></div>
 
 <div class="footer">
@@ -787,17 +748,17 @@ const D = DATA;
 const esc = s => String(s);
 
 // Helpers de componentes
-const photo = (desc, src, h="62vh") => src
+const photo = (desc, src, h="62cqh") => src
   ? `<div class="photo" style="height:${h};background:url('${src}') center/cover"></div>`
   : `<div class="photo" style="height:${h}"><div class="ph-inner"><div class="ph-ico">📷</div>
        <div class="ph-tag">Foto pendiente</div><div class="ph-desc">${esc(desc)}</div></div></div>`;
 
-const photoAnim = (desc, src, h="62vh") => src
+const photoAnim = (desc, src, h="62cqh") => src
   ? `<div class="photo-anim" style="height:${h};background:url('${src}') center/cover"></div>`
   : `<div class="photo-anim" style="height:${h}"><div class="ph-inner"><div class="ph-ico">🎞️</div>
        <div class="ph-tag">Foto animada / GIF pendiente</div><div class="ph-desc">${esc(desc)}</div></div></div>`;
 
-const video = (src, h="62vh") =>
+const video = (src, h="62cqh") =>
   `<video src="${src}" autoplay muted loop playsinline
      style="height:${h};width:100%;object-fit:cover;border-radius:var(--radius);border:2px solid var(--accent)"></video>`;
 
@@ -836,7 +797,7 @@ const donut = (data, big="100%", small="del sueldo") => {
       transform="rotate(-90 120 120)"/>`;
     acc+=d[1]; return s;
   }).join('');
-  return `<svg viewBox="0 0 240 240" style="width:44vh;height:44vh;max-width:100%">${segs}
+  return `<svg viewBox="0 0 240 240" style="width:44cqh;height:44cqh;max-width:100%">${segs}
     <circle cx="120" cy="120" r="60" fill="var(--panel)"/>
     <text x="120" y="114" text-anchor="middle" font-size="30" font-weight="800" fill="var(--ink)">${big}</text>
     <text x="120" y="138" text-anchor="middle" font-size="13" fill="var(--muted)">${small}</text></svg>`;
@@ -900,7 +861,7 @@ slides.push(`<div class="slide center">
   <p class="sub">Quién es el empleado evaluado: ficha, trayectoria y cómo llegó hasta acá.</p>
 </div>`);
 
-slides.push(`<div class="slide" style="padding-top:1.5vh;padding-bottom:1vh">
+slides.push(`<div class="slide" style="padding-top:1.5cqh;padding-bottom:1cqh">
   <div class="kicker" style="margin-bottom:6px">Ficha del empleado</div>
   <h2 style="margin-bottom:2px;font-size:40px">Perfil del colaborador</h2>
   <div class="li-wrap">
@@ -988,7 +949,7 @@ slides.push(`<div class="slide">
   <h2>Historia laboral (de la vida)</h2>
   <div class="grid g3" style="flex:1;margin:18px 0;grid-auto-rows:1fr">
     ${D.timeline.map(t=>`<div class="card frag" style="display:flex;flex-direction:column;padding:16px">
-      <div class="gal-photo" style="background-image:url('${t.img}');flex:1;margin:0 0 12px;min-height:28vh"></div>
+      <div class="gal-photo" style="background-image:url('${t.img}');flex:1;margin:0 0 12px;min-height:28cqh"></div>
       <div style="color:var(--accent);font-weight:800;letter-spacing:1px;font-size:15px;text-transform:uppercase">${esc(t.when)}</div>
       <h3 style="margin-top:2px">${esc(t.title)}</h3>
       <p class="note" style="font-size:15px">${esc(t.what)}</p>
@@ -1008,7 +969,7 @@ slides.push(`<div class="slide">
       <div class="chips" style="margin-top:20px"><span class="chip">💘 Relaciones</span><span class="chip">💋 Conquistas</span><span class="chip">🍻 Eventos canónicos</span></div>
     </div>
     <div style="text-align:center">
-      <img src="Fotos/valde-trayectoria.jpeg" style="height:60vh;border-radius:16px;box-shadow:0 12px 32px rgba(31,41,55,.18)">
+      <img src="Fotos/valde-trayectoria.jpeg" style="height:60cqh;border-radius:16px;box-shadow:0 12px 32px rgba(31,41,55,.18)">
       <div class="pquote"><span class="pq-text">"[Frase legendaria de Valde]"</span><span class="pq-by">— Diego "Valde" Valdebenito</span></div>
     </div>
   </div>
@@ -1047,7 +1008,7 @@ slides.push(`<div class="slide">
       <h3 style="text-align:center;font-size:26px;margin:6px 0 40px">⏱️ Duración por sesión</h3>
       ${(()=>{
         const dd=M.onsDuracion, mx=Math.max(...dd.map(d=>d[1]),1);
-        return `<div class="bars" style="height:46vh">${dd.map(d=>{
+        return `<div class="bars" style="height:46cqh">${dd.map(d=>{
           const peak=d[1]===mx;
           return `<div class="bar-col"><div class="bar ${peak?'alt':''}" data-h="${Math.round(d[1]/mx*100)}"><span class="val">${peak?'⏱️':''}</span></div><div class="bar-lbl">${esc(d[0])}</div></div>`;
         }).join('')}</div>`;
@@ -1090,7 +1051,7 @@ slides.push(`<div class="slide cf-dyn">
   <div class="kicker">Embudo de conquista · método Valde</div>
   <h2>Funnel de conversión</h2>
   <div class="cf-stage">
-    <div class="cf-tac"><div class="cf-photo" style="background-image:url('Fotos/valde-especimen.jpeg');height:49vh"></div><div class="cf-tac-txt"><div class="cf-tac-k">El espécimen</div><h3>En su hábitat natural</h3></div></div>
+    <div class="cf-tac"><div class="cf-photo" style="background-image:url('Fotos/valde-especimen.jpeg');height:49cqh"></div><div class="cf-tac-txt"><div class="cf-tac-k">El espécimen</div><h3>En su hábitat natural</h3></div></div>
     ${(()=>{
       let out='';
       M.funnel.forEach((f,i)=>{
@@ -1214,10 +1175,10 @@ slides.push(`<div class="slide">
   <div class="kicker warn">Análisis de activos</div>
   <h2>Evolución del activo físico</h2>
   <div class="grid g3" style="flex:1;margin:14px 0;align-items:stretch">
-    <div class="frag" style="display:flex;flex-direction:column">${photo(R.evolucion.captionAntes, R.evolucion.imgAntes, "44vh")}
+    <div class="frag" style="display:flex;flex-direction:column">${photo(R.evolucion.captionAntes, R.evolucion.imgAntes, "44cqh")}
       <p style="text-align:center;font-weight:800;margin-top:10px;font-size:20px">ANTES · <span style="color:var(--accent)">peak histórico</span></p></div>
     <div class="frag" style="display:flex;flex-direction:column;justify-content:center">
-      <div class="scatter" style="margin:10px 40px 40px;min-height:32vh;flex:0 0 32vh">
+      <div class="scatter" style="margin:10px 40px 40px;min-height:32cqh;flex:0 0 32cqh">
         <span class="trend" style="bottom:auto;top:8%;transform-origin:left;transform:rotate(26deg)"></span>
         <span class="pt" style="left:10%;bottom:78%"></span><span class="pt" style="left:35%;bottom:58%"></span>
         <span class="pt" style="left:60%;bottom:36%"></span><span class="pt" style="left:85%;bottom:16%"></span>
@@ -1225,7 +1186,7 @@ slides.push(`<div class="slide">
       </div>
       <p class="sub" style="font-size:17px;text-align:center;margin:0 auto">Correlación directa entre felicidad y kilos.<br><b>R² = 0,98</b> · estadísticamente irrefutable.</p>
     </div>
-    <div class="frag" style="display:flex;flex-direction:column">${photo(R.evolucion.captionDespues, R.evolucion.imgDespues, "44vh")}
+    <div class="frag" style="display:flex;flex-direction:column">${photo(R.evolucion.captionDespues, R.evolucion.imgDespues, "44cqh")}
       <p style="text-align:center;font-weight:800;margin-top:10px;font-size:20px">HOY · <span style="color:var(--warn)">modo felicidad</span></p></div>
   </div>
 </div>`);
@@ -1247,7 +1208,7 @@ slides.push(`<div class="slide">
   <h2>Testimonios del comité</h2>
   <div class="grid g3" style="flex:1;margin:16px 0;grid-auto-rows:1fr">
     ${R.testimonios.map(t=>`<div class="card frag" style="display:flex;flex-direction:column">
-      ${photo("Foto de "+t.quien, t.img, "24vh")}
+      ${photo("Foto de "+t.quien, t.img, "24cqh")}
       <p style="font-size:20px;font-style:italic;margin-top:14px;line-height:1.4">"${esc(t.quote)}"</p>
       <p style="margin-top:auto;padding-top:12px"><b style="font-size:19px">${esc(t.quien)}</b><br>
         <span style="font-size:14px;color:var(--muted)">${esc(t.cargo)}</span></p>
@@ -1297,7 +1258,7 @@ slides.push(`<div class="slide">
 slides.push(`<div class="slide">
   <div class="kicker">Estudio de rendimiento nocturno</div>
   <h2>La curva de la noche de Valde</h2>
-  <div class="bars" style="height:44vh;margin-top:20px">${R.curvaNoche.map(p=>`
+  <div class="bars" style="height:44cqh;margin-top:20px">${R.curvaNoche.map(p=>`
     <div class="bar-col">
       <div style="font-size:15px;font-weight:700;color:var(--ink);margin-bottom:8px;text-align:center;min-height:44px;display:flex;align-items:flex-end;justify-content:center">${esc(p[2])}</div>
       <div class="bar ${p[1]>=90?'alt':''}" data-h="${Math.max(p[1],3)}"></div>
@@ -1414,7 +1375,7 @@ slides.push(`<div class="slide center">
 </div>`);
 
 // Slide 1 de Veredicto · Análisis FODA
-slides.push(`<div class="slide" style="padding-top:3vh;padding-bottom:3vh">
+slides.push(`<div class="slide" style="padding-top:3cqh;padding-bottom:3cqh">
   <div class="kicker" style="margin-bottom:4px">Análisis estratégico</div>
   <h2 style="font-size:40px">Análisis FODA</h2>
   <div class="foda">
@@ -1450,7 +1411,7 @@ slides.push(`<div class="slide center">
   <h2 style="font-size:58px">¡Salud, Valde! 🥂</h2>
   <p class="sub" style="font-size:27px;margin-top:16px">Gracias por ${esc(D.antiguedad.replace('≈',''))} de carretes, historias y lealtad.<br>
      Que la nueva etapa con ${esc(D.prometida)} sea aún mejor.</p>
-  <img src="Fotos/valde-brindis.jpeg" style="height:48vh;margin-top:18px;border-radius:16px;box-shadow:0 12px 32px rgba(31,41,55,.18)">
+  <img src="Fotos/valde-brindis.jpeg" style="height:48cqh;margin-top:18px;border-radius:16px;box-shadow:0 12px 32px rgba(31,41,55,.18)">
 </div>`);
 
 // ===== ¿A CUÁL MÁS SMASH? (elección del novio) =====
@@ -1501,8 +1462,23 @@ slides.push(`<div class="slide center">
 
 // ---------- RENDER & NAVEGACIÓN ----------
 const deck=document.getElementById('deck');
-deck.innerHTML=slides.join('');
-const els=[...document.querySelectorAll('.slide')];
+deck.innerHTML='<div id="stage"></div>';
+const stage=document.getElementById('stage');
+stage.innerHTML=slides.join('');
+const els=[...stage.querySelectorAll('.slide')];
+
+// Escalar-para-caber: el lienzo 1280x650 se escala para llenar el área visible.
+const STAGE_W=1280, STAGE_H=650;
+function fit(){
+  const dw=deck.clientWidth, dh=deck.clientHeight;
+  const s=Math.min(dw/STAGE_W, dh/STAGE_H);
+  const x=(dw-STAGE_W*s)/2, y=(dh-STAGE_H*s)/2;
+  stage.style.transform=`translate(${x}px,${y}px) scale(${s})`;
+}
+window.addEventListener('resize',fit);
+window.addEventListener('orientationchange',()=>setTimeout(fit,60));
+fit();
+
 let idx=0, frag=0;
 document.getElementById('tot').textContent=els.length;
 document.getElementById('periodo').textContent="Periodo "+D.periodoEvaluado;
