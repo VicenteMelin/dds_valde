@@ -343,7 +343,8 @@ ul.clean{list-style:none}
 .smash-card{background:linear-gradient(180deg,var(--panel),var(--panel-2));border:1px solid var(--line);
   border-radius:16px;box-shadow:0 6px 18px rgba(31,41,55,.08);padding:16px 14px;display:flex;
   flex-direction:column;align-items:center;position:relative}
-.smash-photo{width:100%;aspect-ratio:1/1;border-radius:50%;background-size:cover;background-position:center;
+.smash-photo{height:clamp(84px,20vh,200px);aspect-ratio:1/1;width:auto;max-width:100%;border-radius:50%;
+  background-size:cover;background-position:center top;
   border:4px solid var(--accent);background-color:var(--panel-2);display:grid;place-items:center;
   color:var(--muted);text-align:center;overflow:hidden}
 .smash-photo .ph-ico{font-size:40px;opacity:.5}
@@ -383,9 +384,14 @@ ul.clean{list-style:none}
   /* Apilar en 1 columna todo grid multi-columna (evita que se corte por el borde).
      Cubre grids por clase e inline (style="grid-template-columns:..."). */
   .slide [style*="grid-template-columns"],
-  .grid.g2,.grid.g3,.grid.g4,.foda,.quiz-ops,.split,.li-wrap,.gallery,.smash-grid,.skill{
+  .grid.g2,.grid.g3,.grid.g4,.foda,.quiz-ops,.split,.li-wrap,.gallery,.skill{
     grid-template-columns:1fr!important;
   }
+  /* Candidatas: 2 columnas en el teléfono (10 en 1 columna quedaría larguísimo) */
+  .slide .smash-grid[style]{grid-template-columns:1fr 1fr!important}
+  .smash-card{min-width:0}
+  .smash-photo{height:auto;width:100%;max-width:160px}
+  .smash-name{font-size:16px} .smash-tag{font-size:12px}
   /* Medios: que escalen por ancho y no desborden */
   .slide img,.slide video{max-width:100%!important;height:auto!important}
   .slide [style*="width:"][style*="px"]{max-width:100%}
@@ -734,6 +740,8 @@ const DATA = {
     {nombre:"[Asistente 6]", img:"Fotos/Smash/asistente-6.png", tag:"[apodo / gracia]"},
     {nombre:"[Asistente 7]", img:"Fotos/Smash/asistente-7.png", tag:"[apodo / gracia]"},
     {nombre:"[Asistente 8]", img:"Fotos/Smash/asistente-8.png", tag:"[apodo / gracia]"},
+    {nombre:"[Asistente 9]", img:"Fotos/Smash/asistente-9.png", tag:"[apodo / gracia]"},
+    {nombre:"[Asistente 10]", img:"Fotos/Smash/asistente-10.png", tag:"[apodo / gracia]"},
   ],
 
   // Trivia estilo "¿Quién quiere ser millonario?" — edita pregunta y las 4 opciones
@@ -1433,7 +1441,7 @@ slides.push(`<div class="slide center">
 
 slides.push((()=>{
   const As=D.asistentes||[];
-  const cols=Math.min(Math.max(As.length,1),4);
+  const cols=Math.min(Math.max(As.length,1),5);
   return `<div class="slide">
     <div class="kicker">Elección del novio</div>
     <h2>Las candidatas 💃</h2>
