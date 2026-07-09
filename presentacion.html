@@ -430,31 +430,23 @@ const DATA = {
 
   // --- Perfil estilo LinkedIn (ficha del empleado) ---
   perfil: {
-    nombreCompleto: "Diego Valdebenito [apellido]",
-    headline: "[cargo real / dónde trabaja Valde]",
-    ubicacion: "[ciudad]",
-    contactos: "[nº]",
-    empresa: "[empresa]",
-    universidad: "[universidad]",
-    acercaDe: "[Bio estilo LinkedIn: título, magíster, 'buenas relaciones interpersonales'... el clásico texto de perfil que se pueda leer en tono chistoso.]",
+    nombreCompleto: "Valde Corp",
+    headline: "Finance at Neorentas AGF | Real Estate",
+    ubicacion: "Santiago de Chile",
+    contactos: "500+",
+    empresa: "Neorentas AGF",
+    universidad: "Pontificia Universidad Católica",
+    acercaDe: "Me apasionan los inmuebles, y a veces también los muebles. Ser el weón más brígido de Neorentas es mi norte. Entre reuniones me siento en el baño a ver cómo van mis acciones porque me libera el colon. Todo lo que tengo puesto lo pagué con acciones de Tesla.",
     // Entrada de experiencia con el chiste de la despedida
     expCargo: "Soltero Senior",
     expEmpresa: "Valdebenito & Asociados · Jornada completa",
     expPeriodo: "[mes año inicio] – dic 2026 · [XX] años",
-    expNota: "Contrato por finalizar: ascenso a 💍 Marido el [fecha].",
-    // Segunda experiencia (hobby chistoso de Valde)
-    exp2Cargo: "[hobby/talento chistoso de Valde]",
-    exp2Empresa: "[dónde lo practica] · Hobby",
-    exp2Periodo: "[años]",
-    exp2Metric: "[métrica chistosa]",
-    exp2MetricNota: "[nota entre paréntesis]",
-    // Tercera experiencia (baile / otro talento)
-    exp3Cargo: "[otro talento, ej: Bailarín amateur]",
-    exp3Empresa: "[dónde] · Fines de semana",
-    exp3Pasos: ["[paso 1]", "[paso 2]", "[paso 3]", "[paso 4]", "[paso 5]"],
-    exp3Conquistas: "[X] conquistas",
-    exp3KOs: "[X] KOs",
-    exp3KOsNota: "sin querer",
+    expNota: "Contrato por finalizar: fusión definitiva (matrimonio) el 22 de agosto.",
+    // Experiencia destacada (título + cita)
+    exp2Cargo: "Asistencia a personas en situación de calle",
+    exp2Quote: "Salgan de mi inmueble malditos",
+    exp3Cargo: "Soplador de armónica",
+    exp3Quote: "Lo hago para farmear aura",
   },
 
   // --- Resumen ejecutivo (rellena el veredicto) ---
@@ -478,9 +470,18 @@ const DATA = {
 
   // --- Fotos grupales (slide Equipo) {foto, caption} ---
   equipoFotos: [
-    {img:"Fotos/valde-grupo-abrazo.jpeg",     cap:"Los que lo aguantan 🤗"},
-    {img:"Fotos/valde-grupo-guillotina.jpeg", cap:"Los de los eventos culturales 🎭"},
-    {img:"Fotos/valde-carrete-vasos.jpeg",    cap:"Los del carrete 🍻"},
+    {img:"Fotos/Team/Aguilar.png",   cap:"Aguilar"},
+    {img:"Fotos/Team/Benja.png",     cap:"Benja"},
+    {img:"Fotos/Team/Beto.png",      cap:"Beto"},
+    {img:"Fotos/Team/Chelo.png",     cap:"Chelo"},
+    {img:"Fotos/Team/Diego.png",     cap:"Diego"},
+    {img:"Fotos/Team/Javier.png",    cap:"Javier"},
+    {img:"Fotos/Team/Mati.png",      cap:"Mati"},
+    {img:"Fotos/Team/Melin.png",     cap:"Melin"},
+    {img:"Fotos/Team/Nacrur.png",    cap:"Nacrur"},
+    {img:"Fotos/Team/Pancho.png",    cap:"Pancho"},
+    {img:"Fotos/Team/Seba.png",      cap:"Seba"},
+    {img:"Fotos/Team/ValdeJr.jpeg",  cap:"ValdeJr"},
   ],
 
   // --- Cómo conoció a la novia (último evento canónico) ---
@@ -827,8 +828,8 @@ slides.push(`<div class="slide center">
 </div>`);
 
 slides.push(`<div class="slide center">
-  <div class="kicker">El gran salto 🔜</div>
-  <h2 style="font-size:50px">Llegó el momento de cerrar el ciclo… 🔄</h2>
+  <div class="kicker">Evaluación de M&amp;A</div>
+  <h2 style="font-size:50px">¿Valde Corp está listo<br>para fusionarse? 🔄</h2>
   <p style="font-size:46px;font-weight:800;color:var(--accent);margin-top:20px">¿Estás listo para ser MARIDO? 💍🤵</p>
   <p class="sub" style="margin-top:14px">Pero antes, un último repaso del expediente. 🍻📋</p>
 </div>`);
@@ -868,12 +869,12 @@ slides.push(`<div class="slide center">
 </div>`);
 
 slides.push(`<div class="slide" style="padding-top:1.5cqh;padding-bottom:1cqh">
-  <div class="kicker" style="margin-bottom:6px">Ficha del empleado</div>
-  <h2 style="margin-bottom:2px;font-size:40px">Perfil del colaborador</h2>
+  <div class="kicker" style="margin-bottom:6px">Ficha corporativa</div>
+  <h2 style="margin-bottom:2px;font-size:40px">Perfil de la empresa</h2>
   <div class="li-wrap">
     <div class="li-card li-profile">
-      <div class="li-banner"><span class="li-banner-txt">#[hashtag de Valde]</span></div>
-      <img class="li-avatar" src="Fotos/valde-perfil.jpeg" alt="Valde">
+      <div class="li-banner"><span class="li-banner-txt">Valde Corp</span></div>
+      <img class="li-avatar" src="Fotos/valde-linkedin.jpeg" alt="Valde">
       <div class="li-body">
         <div class="li-name">${esc(P.nombreCompleto)} <span class="li-badge">✓</span> <span class="li-1er">· 1.er</span></div>
         <div class="li-headline">💍 ${esc(P.expCargo)}</div>
@@ -900,23 +901,17 @@ slides.push(`<div class="slide" style="padding-top:1.5cqh;padding-bottom:1cqh">
       <div class="li-card">
         <h3 class="li-h3">Experiencia destacada</h3>
         <div class="li-exp frag">
-          <div class="li-exp-ico">🚁</div>
+          <div class="li-exp-ico">🏚️</div>
           <div>
             <b>${esc(P.exp2Cargo)}</b>
-            <div class="li-exp-sub">${esc(P.exp2Empresa)} · ${esc(P.exp2Periodo)}</div>
-            <div class="li-exp-metric">🐦 ${esc(P.exp2Metric)} <span>(${esc(P.exp2MetricNota)})</span></div>
+            <div class="li-exp-sub" style="font-style:italic">“${esc(P.exp2Quote)}”</div>
           </div>
         </div>
         <div class="li-exp frag" style="margin-top:9px;padding-top:9px;border-top:1px solid var(--line)">
-          <div class="li-exp-ico">🕺</div>
+          <div class="li-exp-ico">🎵</div>
           <div>
             <b>${esc(P.exp3Cargo)}</b>
-            <div class="li-exp-sub">${esc(P.exp3Empresa)}</div>
-            <div class="li-steps">${P.exp3Pasos.map(p=>`<span>${esc(p)}</span>`).join('')}</div>
-            <div class="li-metrics">
-              <span class="li-exp-metric good">💃 ${esc(P.exp3Conquistas)}</span>
-              <span class="li-exp-metric">🥊 ${esc(P.exp3KOs)} <span>(${esc(P.exp3KOsNota)})</span></span>
-            </div>
+            <div class="li-exp-sub" style="font-style:italic">“${esc(P.exp3Quote)}”</div>
           </div>
         </div>
       </div>
@@ -927,7 +922,7 @@ slides.push(`<div class="slide" style="padding-top:1.5cqh;padding-bottom:1cqh">
 // (Sección 1 continúa) Trayectoria en fotos chistosas — timeline
 slides.push(`<div class="slide">
   <div class="kicker">Marco estratégico</div>
-  <h2>Pilares estratégicos del empleado</h2>
+  <h2>Pilares estratégicos de la empresa</h2>
   <div class="gallery" style="grid-template-columns:repeat(${D.fotosChistosas.length},1fr)">
     ${D.fotosChistosas.map((f,i)=>`<div class="gal-item frag">
       <div class="gal-photo" style="background-image:url('${f.img}');margin-top:14px"></div>
@@ -941,9 +936,9 @@ slides.push(`<div class="slide">
   <div class="kicker">Recursos humanos</div>
   <h2>El equipo</h2>
   <p class="sub" style="margin-top:6px">Los que estuvieron en todas (y en ninguna se hicieron los locos).</p>
-  <div class="gallery" style="grid-template-columns:repeat(${D.equipoFotos.length},1fr)">
+  <div class="gallery" style="grid-template-columns:repeat(${Math.ceil(D.equipoFotos.length/2)},1fr);gap:12px">
     ${D.equipoFotos.map(f=>`<div class="team-item">
-      <div class="gal-photo" style="background-image:url('${f.img}')"></div>
+      <div class="gal-photo" style="background-image:url('${f.img}');background-size:cover"></div>
       <div class="team-cap">${esc(f.cap)}</div>
     </div>`).join('')}
   </div>
