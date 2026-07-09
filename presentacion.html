@@ -532,10 +532,8 @@ const DATA = {
     conquistas: [["Santiago",80],["Viña / la playa",55],["En el extranjero",30],["Carrete de la U",70]],
     tasaConversion: "??%",
     records: [
-      ["Relación más larga","?? años","[con quién / contexto]"],
-      ["Relación más corta","?? semanas","[el caso exprés]"],
-      ["Texto sin responder más largo","?? días","[la dejada en visto histórica]"],
-      ["Edad del primer beso","?? años","[contexto]"],
+      ["Relación más larga","~4 años","Siempre Catalinas"],
+      ["Relación más corta","~14 segundos","No aguanto más"],
     ],
   },
 
@@ -935,7 +933,7 @@ slides.push(`<div class="slide">
 slides.push(`<div class="slide">
   <div class="kicker">Recursos humanos</div>
   <h2>El equipo</h2>
-  <p class="sub" style="margin-top:6px">Los que estuvieron en todas (y en ninguna se hicieron los locos).</p>
+  <p class="sub" style="margin-top:6px">Quienes hicieron esto posible.</p>
   <div class="gallery" style="grid-template-columns:repeat(${Math.ceil(D.equipoFotos.length/2)},1fr);gap:12px">
     ${D.equipoFotos.map(f=>`<div class="team-item frag">
       <div class="gal-photo" style="background-image:url('${f.img}');background-size:cover"></div>
@@ -945,17 +943,11 @@ slides.push(`<div class="slide">
 </div>`);
 
 // Timeline profesional (Colegio · Universidad · Trabajo) con fotos
-slides.push(`<div class="slide">
+slides.push(`<div class="slide center">
   <div class="kicker">Trayectoria del colaborador</div>
-  <h2>Línea de tiempo 2016–2026</h2>
-  <div class="grid g3" style="flex:1;margin:18px 0;grid-auto-rows:1fr">
-    ${D.timeline.map(t=>`<div class="card frag" style="display:flex;flex-direction:column;padding:16px">
-      <div class="gal-photo" style="background-image:url('${t.img}');flex:1;margin:0 0 12px;min-height:28cqh"></div>
-      <div style="color:var(--accent);font-weight:800;letter-spacing:1px;font-size:15px;text-transform:uppercase">${esc(t.when)}</div>
-      <h3 style="margin-top:2px">${esc(t.title)}</h3>
-      <p class="note" style="font-size:15px">${esc(t.what)}</p>
-    </div>`).join('')}
-  </div>
+  <h2 style="margin-bottom:10px">Línea de tiempo 2016–2026</h2>
+  <img src="Fotos/valde-linea-tiempo.png" style="max-height:56cqh;max-width:94%;object-fit:contain;border-radius:14px;box-shadow:0 12px 32px rgba(31,41,55,.18)">
+  <p class="sub" style="margin-top:14px;max-width:74ch">10 años de operación ininterrumpida: de start-up prometedora a activo listo para fusión. Múltiples rondas de financiamiento (en piscolas), pivotes cuestionables y cero intención de vender… hasta ahora. 📈🍻</p>
 </div>`);
 
 // ===== DINÁMICA · ¿A CUÁL MÁS SMASH? (elección del novio) — antes de Sección 2 =====
@@ -1200,25 +1192,26 @@ slides.push(`<div class="slide">
 </div>`);
 
 // Roast 4 · Evolución del activo físico (antes/después + gráfico de tendencia)
-slides.push(`<div class="slide">
-  <div class="kicker warn">Análisis de activos</div>
-  <h2>Evolución del activo físico</h2>
-  <div class="grid g3" style="flex:1;margin:14px 0;align-items:stretch">
-    <div class="frag" style="display:flex;flex-direction:column">${photo(R.evolucion.captionAntes, R.evolucion.imgAntes, "44cqh")}
-      <p style="text-align:center;font-weight:800;margin-top:10px;font-size:20px">ANTES · <span style="color:var(--accent)">peak histórico</span></p></div>
-    <div class="frag" style="display:flex;flex-direction:column;justify-content:center">
-      <div class="scatter" style="margin:10px 40px 40px;min-height:32cqh;flex:0 0 32cqh">
-        <span class="trend" style="bottom:auto;top:8%;transform-origin:left;transform:rotate(26deg)"></span>
-        <span class="pt" style="left:10%;bottom:78%"></span><span class="pt" style="left:35%;bottom:58%"></span>
-        <span class="pt" style="left:60%;bottom:36%"></span><span class="pt" style="left:85%;bottom:16%"></span>
-        <span class="axis-x">Años de relación estable</span><span class="axis-y">Estado físico</span>
-      </div>
-      <p class="sub" style="font-size:17px;text-align:center;margin:0 auto">Correlación directa entre felicidad y kilos.<br><b>R² = 0,98</b> · estadísticamente irrefutable.</p>
+slides.push((()=>{
+  const years=[2016,2017,2018,2019,2020,2021,2022,2023,2024,2025];
+  const bottoms=[85,79,72,63,58,49,40,33,24,15];   // estado físico: baja con los años
+  const n=years.length;
+  const pts=years.map((y,i)=>{
+    const left=6+i*(88/(n-1));
+    return `<span class="pt" style="left:${left}%;bottom:${bottoms[i]}%"></span>
+      <span style="position:absolute;left:${left}%;bottom:-32px;transform:translateX(-50%);font-size:14px;color:var(--muted)">${y}</span>`;
+  }).join('');
+  return `<div class="slide">
+    <div class="kicker warn">Análisis de activos</div>
+    <h2>Evolución del activo físico</h2>
+    <div class="scatter" style="flex:1;margin:44px 90px 64px">
+      <span class="trend" style="bottom:auto;top:4%;width:118%;transform-origin:left;transform:rotate(27deg)"></span>
+      ${pts}
+      <span class="axis-y">Estado físico</span>
     </div>
-    <div class="frag" style="display:flex;flex-direction:column">${photo(R.evolucion.captionDespues, R.evolucion.imgDespues, "44cqh")}
-      <p style="text-align:center;font-weight:800;margin-top:10px;font-size:20px">HOY · <span style="color:var(--warn)">modo felicidad</span></p></div>
-  </div>
-</div>`);
+    <p class="sub" style="font-size:19px;text-align:center;margin:0 auto">Correlación directa entre felicidad y kilos.<br><b>R² = 0,98</b> · estadísticamente irrefutable.</p>
+  </div>`;
+})());
 
 // Roast 5 · Excusas más utilizadas (ranking)
 slides.push(`<div class="slide">
@@ -1544,15 +1537,17 @@ function slideVideoResp(kicker,titulo,src){
 }
 // 64 · anime (pregunta) / 65 · video
 slides.push(slidePregunta('Pregunta 1 · ¿Cuánto conocés a Valde?','¿Cuál es el personaje de anime favorito de Valde?',
-  ['Goku','Vegeta','Naruto','Eren Yeager']));
+  ['Goku','Tanjiro','Levi','Gojo Satoru']));
 slides.push(slideVideoResp('La respuesta 🎬','Personaje de anime favorito','Fotos/videos/anime.mp4'));
 // 66 · puteada (pregunta) / 67 · video
 slides.push(slidePregunta('Pregunta 2 · ¿Cuánto conocés a Valde?','¿Cuál es la puteada típica de Valde?',
-  ['"¡Qué wea!"','"Puta el weón…"','"¡Ándate a la cresta!"','"Ya po, chúpalo"']));
+  ['"Waton jeton sale de acá"','"Si te pillo te lo pongo"','"Mongo no cachai una"','"Es un chupasaaangre"']));
 slides.push(slideVideoResp('La respuesta 🎬','La puteada típica','Fotos/videos/frase-tipica.mp4'));
 // 68 · paso (pregunta) / 69 · video
-slides.push(slidePregunta('Pregunta 3 · ¿Cuánto conocés a Valde?','¿Cuál es el paso típico de Valde en la pista?',
-  ['El trote lateral','El sprinkler','La lavadora','El taca-taca']));
+slides.push(`<div class="slide center">
+  <div class="kicker">El paso típico de Valde 🕺</div>
+  <div class="quiz-q" style="max-width:14ch">¡Imítalo!</div>
+</div>`);
 slides.push(slideVideoResp('La respuesta 🎬','El paso típico','Fotos/videos/paso-tipico.mp4'));
 // 70 · Kiss Marry Kill (sin alternativas) / 71 · video
 slides.push(`<div class="slide center">
@@ -1563,21 +1558,27 @@ slides.push(slideVideoResp('La respuesta 🎬','Kiss · Marry · Kill','Fotos/vi
 // 72 · Desafío final (solo video, sin pregunta)
 slides.push(slideVideoResp('Desafío final 🏆','El desafío final','Fotos/videos/desafio-final.mp4'));
 
+// 73 · Foto de récord (va justo después de Récords personales)
+slides.push(`<div class="slide center">
+  <div class="kicker">Salón de la fama</div>
+  ${photo('Foto del récord — pásamela y la conecto', '', '64cqh')}
+</div>`);
+
 // ===== REESTRUCTURACIÓN M&A — orden final por actos (índices del array original) =====
 // Acto1: 0-4 | Acto2: 5-9,Récords17,Cifras40 | Acto3: Amigos58,Deportes59,Apariencia28,Hobbies60,U&T61
 // Acto4: Auditoría24,27,31,35,36,32,30 | Acto5: 13,18,19,DueDiligence62
 // Acto6: 20,21,22,34,23 | Acto7: 25,39,41,42 | Acto8: FODA44,45,Recom63,Salud46 | Smash: 10,11
 const ordenMA=[
-  0,1,2,3,4,
-  5,6,7,8,9,17,40,
-  58,59,28,60,61,
-  24,27,31,35,36,32,30,
-  13,18,19,62,
-  20,21,22,34,23,
-  25,39,41,42,
-  44,45,63,46,
-  10,11,
-  64,65,66,67,68,69,70,71,72
+  0,1,2,3,4,                 // Acto 1 · Apertura
+  5,6,7,8,9,17,73,           // Acto 2 · Perfil de la empresa (17 Récords + 73 foto récord)
+  59,28,61,                  // Acto 3 · Unidades de Negocio
+  24,36,                     // Acto 4 · Auditoría 360° + Crímenes contra la moda
+  19,62,                     // Acto 5 · Cómo conoció a la novia + Due diligence
+  21,34,                     // Acto 6 · Borracheras por año + Curva de la noche
+  42,                        // Acto 7 · Cláusulas del nuevo contrato
+  44,45,63,46,               // Acto 8 · FODA, Resumen, Recomendación, Salud
+  10,11,                     // Dinámica Smash
+  64,65,66,67,68,69,70,71,72 // Dinámica Cata (preguntas + video)
 ];
 const slidesMA=ordenMA.map(i=>slides[i]).filter(Boolean);
 
