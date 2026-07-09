@@ -957,6 +957,32 @@ slides.push(`<div class="slide">
   </div>
 </div>`);
 
+// ===== DINÁMICA · ¿A CUÁL MÁS SMASH? (elección del novio) — antes de Sección 2 =====
+slides.push(`<div class="slide center">
+  <div class="kicker">Dinámica · elección del novio 💍</div>
+  <h1>¿A cuál le harías<br>más… smash? 💋</h1>
+  <p class="sub">Última oportunidad, Valde. Estas son las candidatas.<br>Elige a la más atractiva. Sin presión. 😏</p>
+</div>`);
+
+slides.push((()=>{
+  const As=D.asistentes||[];
+  const cols=Math.min(Math.max(As.length,1),5);
+  return `<div class="slide">
+    <div class="kicker">Elección del novio</div>
+    <h2>Las candidatas 💃</h2>
+    <div class="smash-grid" style="grid-template-columns:repeat(${cols},1fr)">
+      ${As.map(a=>`<div class="smash-card frag">
+        <div class="smash-heart">❤️</div>
+        <div class="smash-photo" style="${a.img?`background-image:url('${a.img}')`:''}">
+          ${a.img?'':`<div><div class="ph-ico">📷</div><div class="ph-mini">Foto</div></div>`}
+        </div>
+        <div class="smash-name">${esc(a.nombre)}</div>
+        ${a.tag?`<div class="smash-tag">${esc(a.tag)}</div>`:''}
+      </div>`).join('')}
+    </div>
+  </div>`;
+})());
+
 // ===== SECCIÓN 2: PORTAFOLIO DE RELACIONES =====
 const M=D.mujeres, A=D.alcohol, R=D.roast;
 
@@ -1413,32 +1439,6 @@ slides.push(`<div class="slide center">
      Que la nueva etapa con ${esc(D.prometida)} sea aún mejor.</p>
   <img src="Fotos/valde-brindis-amigos.jpeg" style="height:48cqh;margin-top:18px;border-radius:16px;box-shadow:0 12px 32px rgba(31,41,55,.18)">
 </div>`);
-
-// ===== ¿A CUÁL MÁS SMASH? (elección del novio) =====
-slides.push(`<div class="slide center">
-  <div class="kicker">Dinámica · elección del novio 💍</div>
-  <h1>¿A cuál le harías<br>más… smash? 💋</h1>
-  <p class="sub">Última oportunidad, Valde. Estas son las candidatas.<br>Elige a la más atractiva. Sin presión. 😏</p>
-</div>`);
-
-slides.push((()=>{
-  const As=D.asistentes||[];
-  const cols=Math.min(Math.max(As.length,1),5);
-  return `<div class="slide">
-    <div class="kicker">Elección del novio</div>
-    <h2>Las candidatas 💃</h2>
-    <div class="smash-grid" style="grid-template-columns:repeat(${cols},1fr)">
-      ${As.map(a=>`<div class="smash-card frag">
-        <div class="smash-heart">❤️</div>
-        <div class="smash-photo" style="${a.img?`background-image:url('${a.img}')`:''}">
-          ${a.img?'':`<div><div class="ph-ico">📷</div><div class="ph-mini">Foto</div></div>`}
-        </div>
-        <div class="smash-name">${esc(a.nombre)}</div>
-        ${a.tag?`<div class="smash-tag">${esc(a.tag)}</div>`:''}
-      </div>`).join('')}
-    </div>
-  </div>`;
-})());
 
 // ===== TRIVIA (estilo concurso) =====
 slides.push(`<div class="slide center">
