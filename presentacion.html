@@ -352,6 +352,11 @@ ul.clean{list-style:none}
 .smash-name{margin-top:12px;font-size:21px;font-weight:800;color:var(--ink);text-align:center;line-height:1.15}
 .smash-tag{margin-top:2px;font-size:14px;color:var(--gold);font-style:italic;text-align:center}
 .smash-heart{position:absolute;top:10px;right:12px;font-size:20px}
+/* Los nombres nacen ocultos (reservando su espacio) y aparecen todos juntos
+   al revelar el último fragmento (clase .names-on la agrega el JS). */
+.smash-name{opacity:0;transition:opacity .5s ease}
+.smash-grid.names-on .smash-name{opacity:1}
+.smash-names-cue{display:none}
 
 /* ============================================================
    ESCALAR-PARA-CABER (webapp en celular / cualquier pantalla)
@@ -714,16 +719,17 @@ const DATA = {
   // Fotos de perfil de los asistentes (como si fueran candidatas). Pon la foto en Fotos/Smash/
   // y escribe el nombre. Agrega o quita cuantas necesites — la grilla se acomoda sola.
   asistentes: [
-    {nombre:"[Asistente 1]", img:"Fotos/Smash/asistente-1.png", tag:"[apodo / gracia]"},
-    {nombre:"[Asistente 2]", img:"Fotos/Smash/asistente-2.png", tag:"[apodo / gracia]"},
-    {nombre:"[Asistente 3]", img:"Fotos/Smash/asistente-3.png", tag:"[apodo / gracia]"},
-    {nombre:"[Asistente 4]", img:"Fotos/Smash/asistente-4.png", tag:"[apodo / gracia]"},
-    {nombre:"[Asistente 5]", img:"Fotos/Smash/asistente-5.png", tag:"[apodo / gracia]"},
-    {nombre:"[Asistente 6]", img:"Fotos/Smash/asistente-6.png", tag:"[apodo / gracia]"},
-    {nombre:"[Asistente 7]", img:"Fotos/Smash/asistente-7.png", tag:"[apodo / gracia]"},
-    {nombre:"[Asistente 8]", img:"Fotos/Smash/asistente-8.png", tag:"[apodo / gracia]"},
-    {nombre:"[Asistente 9]", img:"Fotos/Smash/asistente-9.png", tag:"[apodo / gracia]"},
-    {nombre:"[Asistente 10]", img:"Fotos/Smash/asistente-10.png", tag:"[apodo / gracia]"},
+    {nombre:"Hartwomann", img:"Fotos/Smash/Benja_Hartwomann.png", tag:""},
+    {nombre:"Bertinha",   img:"Fotos/Smash/Beto_Bertinha.png",    tag:""},
+    {nombre:"Etchamela",  img:"Fotos/Smash/Diego_Etchamela.png",  tag:""},
+    {nombre:"Noches",     img:"Fotos/Smash/Javier_Noches.png",    tag:""},
+    {nombre:"Matilde",    img:"Fotos/Smash/Mati_Matilde.png",     tag:""},
+    {nombre:"Melindra",   img:"Fotos/Smash/Melin_Melindra.png",   tag:""},
+    {nombre:"Goncha",     img:"Fotos/Smash/Nacur_Goncha.png",     tag:""},
+    {nombre:"Panchota",   img:"Fotos/Smash/Pancho_Panchota.png",  tag:""},
+    {nombre:"Aguilinha",  img:"Fotos/Smash/Seba_Aguilinha.png",   tag:""},
+    {nombre:"Sebanal",    img:"Fotos/Smash/Seba_Sebanal.png",     tag:""},
+    {nombre:"Chela",      img:"Fotos/Smash/chelo_Chela.png",      tag:""},
   ],
 
   // Trivia estilo "¿Quién quiere ser millonario?" — edita pregunta y las 4 opciones
@@ -966,7 +972,8 @@ slides.push(`<div class="slide center">
 
 slides.push((()=>{
   const As=D.asistentes||[];
-  const cols=Math.min(Math.max(As.length,1),5);
+  // Hasta 5 en una fila; con más, se reparten en 2 filas.
+  const cols=As.length<=5?Math.max(As.length,1):Math.ceil(As.length/2);
   return `<div class="slide">
     <div class="kicker">Elección del novio</div>
     <h2>Las candidatas 💃</h2>
@@ -979,6 +986,7 @@ slides.push((()=>{
         <div class="smash-name">${esc(a.nombre)}</div>
         ${a.tag?`<div class="smash-tag">${esc(a.tag)}</div>`:''}
       </div>`).join('')}
+      <i class="frag smash-names-cue" aria-hidden="true"></i>
     </div>
   </div>`;
 })());
@@ -1489,7 +1497,13 @@ function animateIn(el){
   el.querySelectorAll('.gauge-arc[data-off]').forEach(a=>{a.style.transition='stroke-dashoffset 1.2s ease';setTimeout(()=>a.style.strokeDashoffset=a.dataset.off,80);});
 }
 function frags(el){return [...el.querySelectorAll('.frag')];}
-function applyFrags(el,count){frags(el).forEach((f,i)=>f.classList.toggle('shown',i<count));syncFootage(el);}
+function applyFrags(el,count){
+  frags(el).forEach((f,i)=>f.classList.toggle('shown',i<count));
+  // Smash: cuando el "cue" (último fragmento) está visible, aparecen todos los nombres.
+  const grid=el.querySelector('.smash-grid');
+  if(grid){const cue=el.querySelector('.smash-names-cue');grid.classList.toggle('names-on',!!(cue&&cue.classList.contains('shown')));}
+  syncFootage(el);
+}
 // Reproduce el video del último wrapper revelado (data-foot); pausa los demás.
 function syncFootage(el){
   const wraps=[...el.querySelectorAll('[data-foot]')];
