@@ -172,16 +172,16 @@ h3{font-size:25px;font-weight:700}
 
 /* ---------- Análisis FODA ---------- */
 .foda{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:14px;flex:1;margin-top:12px}
-.foda-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 24px rgba(31,41,55,.07);padding:16px 28px;border-left:8px solid var(--accent);display:flex;flex-direction:column;justify-content:center}
+.foda-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 24px rgba(31,41,55,.07);padding:12px 24px;border-left:8px solid var(--accent);display:flex;flex-direction:column;justify-content:center}
 .foda-card.f{border-left-color:var(--accent-2)}
 .foda-card.o{border-left-color:var(--accent)}
 .foda-card.d{border-left-color:var(--warn)}
 .foda-card.a{border-left-color:var(--bad)}
-.foda-card h3{font-size:31px;font-weight:800;margin-bottom:10px}
+.foda-card h3{font-size:25px;font-weight:800;margin-bottom:7px}
 .foda-card.f h3{color:var(--accent-2)} .foda-card.o h3{color:var(--accent)}
 .foda-card.d h3{color:var(--warn)} .foda-card.a h3{color:var(--bad)}
-.foda-card ul{list-style:none;display:flex;flex-direction:column;gap:8px}
-.foda-card li{font-size:26px;line-height:1.25;color:var(--ink);padding-left:30px;position:relative}
+.foda-card ul{list-style:none;display:flex;flex-direction:column;gap:5px}
+.foda-card li{font-size:19px;line-height:1.22;color:var(--ink);padding-left:24px;position:relative}
 .foda-card li::before{content:"›";position:absolute;left:0;font-weight:800;color:var(--muted)}
 
 /* ---------- Funnel de conquista (dinámica) ---------- */
@@ -556,10 +556,10 @@ const DATA = {
   // Performance review final del segmento
   // Análisis FODA (edita cada cuadrante a gusto)
   foda: {
-    fortalezas:    ["[Fortaleza 1]", "[Fortaleza 2]", "[Fortaleza 3]"],
-    oportunidades: ["[Oportunidad 1]", "[Oportunidad 2]", "[Oportunidad 3]"],
-    debilidades:   ["[Debilidad 1]", "[Debilidad 2]", "[Debilidad 3]"],
-    amenazas:      ["[Amenaza 1]", "[Amenaza 2]", "[Amenaza 3]"],
+    fortalezas:    ["Alta capacidad de generar amistades duraderas.", "Capacidad de generar anécdotas con alto valor de entretenimiento.", "Administración de acciones con buen retorno, o no hay matri."],
+    oportunidades: ["Capturar sinergias derivadas de la fusión matrimonial.", "Escalar hacia futuras unidades de negocio (hijos) cuando el mercado lo permita.", "Sacar más fotos para recordar los buenos momentos."],
+    debilidades:   ["Tendencia a subestimar la duración real de las salidas.", "Optimismo injustificado respecto al estado físico previo al verano.", "Baldes con piscola."],
+    amenazas:      ["Torneos de pádel con duración indeterminada.", "Asados que se transforman en carretes sin autorización.", "Nuevas despedidas de soltero y matrimonios.", "Hoyos en canchas de fútbol."],
   },
 
   // ====================== ROAST · AUDITORÍA 360° (slides nuevos) ======================
