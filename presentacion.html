@@ -937,7 +937,7 @@ slides.push(`<div class="slide">
   <h2>El equipo</h2>
   <p class="sub" style="margin-top:6px">Los que estuvieron en todas (y en ninguna se hicieron los locos).</p>
   <div class="gallery" style="grid-template-columns:repeat(${Math.ceil(D.equipoFotos.length/2)},1fr);gap:12px">
-    ${D.equipoFotos.map(f=>`<div class="team-item">
+    ${D.equipoFotos.map(f=>`<div class="team-item frag">
       <div class="gal-photo" style="background-image:url('${f.img}');background-size:cover"></div>
       <div class="team-cap">${esc(f.cap)}</div>
     </div>`).join('')}
