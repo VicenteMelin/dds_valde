@@ -339,11 +339,11 @@ ul.clean{list-style:none}
 .section-num{font-size:160px;font-weight:900;color:rgba(31,41,55,.05);position:absolute;right:5cqw;top:8cqh;line-height:1}
 
 /* ---------- ¿A cuál más smash? (elección del novio) ---------- */
-.smash-grid{display:grid;gap:20px;flex:1;margin-top:16px;align-content:center}
+.smash-grid{display:grid;gap:14px;flex:1;margin-top:16px;align-content:center}
 .smash-card{background:linear-gradient(180deg,var(--panel),var(--panel-2));border:1px solid var(--line);
-  border-radius:16px;box-shadow:0 6px 18px rgba(31,41,55,.08);padding:16px 14px;display:flex;
+  border-radius:16px;box-shadow:0 6px 18px rgba(31,41,55,.08);padding:14px 9px;display:flex;
   flex-direction:column;align-items:center;position:relative}
-.smash-photo{height:clamp(84px,20cqh,200px);aspect-ratio:1/1;width:auto;max-width:100%;border-radius:50%;
+.smash-photo{height:clamp(96px,24cqh,190px);aspect-ratio:1/1;width:auto;max-width:100%;border-radius:50%;
   background-size:cover;background-position:center top;
   border:4px solid var(--accent);background-color:var(--panel-2);display:grid;place-items:center;
   color:var(--muted);text-align:center;overflow:hidden}
@@ -719,17 +719,18 @@ const DATA = {
   // Fotos de perfil de los asistentes (como si fueran candidatas). Pon la foto en Fotos/Smash/
   // y escribe el nombre. Agrega o quita cuantas necesites — la grilla se acomoda sola.
   asistentes: [
-    {nombre:"Hartwomann", img:"Fotos/Smash/Benja_Hartwomann.png", tag:""},
-    {nombre:"Bertinha",   img:"Fotos/Smash/Beto_Bertinha.png",    tag:""},
-    {nombre:"Etchamela",  img:"Fotos/Smash/Diego_Etchamela.png",  tag:""},
-    {nombre:"Noches",     img:"Fotos/Smash/Javier_Noches.png",    tag:""},
-    {nombre:"Matilde",    img:"Fotos/Smash/Mati_Matilde.png",     tag:""},
-    {nombre:"Melindra",   img:"Fotos/Smash/Melin_Melindra.png",   tag:""},
-    {nombre:"Goncha",     img:"Fotos/Smash/Nacur_Goncha.png",     tag:""},
-    {nombre:"Panchota",   img:"Fotos/Smash/Pancho_Panchota.png",  tag:""},
-    {nombre:"Aguilinha",  img:"Fotos/Smash/Seba_Aguilinha.png",   tag:""},
-    {nombre:"Sebanal",    img:"Fotos/Smash/Seba_Sebanal.png",     tag:""},
-    {nombre:"Chela",      img:"Fotos/Smash/chelo_Chela.png",      tag:""},
+    {nombre:"Aguilinha",  img:"Fotos/Smash/Aguilar_Aguilinha.png", tag:""},
+    {nombre:"Hartwomann", img:"Fotos/Smash/Benja_Hartwomann.png",  tag:""},
+    {nombre:"Bertinha",   img:"Fotos/Smash/Beto_Bertinha.png",     tag:""},
+    {nombre:"Chela",      img:"Fotos/Smash/Chelo_Chela.png",       tag:""},
+    {nombre:"Etchamela",  img:"Fotos/Smash/Diego_Etchamela.png",   tag:""},
+    {nombre:"Noches",     img:"Fotos/Smash/Javier_Noches.png",     tag:""},
+    {nombre:"Matilde",    img:"Fotos/Smash/Mati_Matilde.png",      tag:""},
+    {nombre:"Melindra",   img:"Fotos/Smash/Melin_Melindra.png",    tag:""},
+    {nombre:"Goncha",     img:"Fotos/Smash/Nacur_Goncha.png",      tag:""},
+    {nombre:"Panchota",   img:"Fotos/Smash/Pancho_Panchota.png",   tag:""},
+    {nombre:"Sebanal",    img:"Fotos/Smash/Seba_Sebanal.png",      tag:""},
+    {nombre:"ValDivaJr",  img:"Fotos/Smash/ValdeJr_ValDivaJr.png", tag:""},
   ],
 
   // Trivia estilo "¿Quién quiere ser millonario?" — edita pregunta y las 4 opciones
