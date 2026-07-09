@@ -486,9 +486,9 @@ const DATA = {
 
   // --- Cómo conoció a la novia (último evento canónico) ---
   laNovia: {
-    titulo: "Cómo conoció a [nombre de la novia]",
-    historia: "[La historia de cómo se conocieron, dónde, quién dio el primer paso, la primera cita...]",
-    img: "Fotos/valde-pareja.jpeg",
+    titulo: "Cómo conoció a Cata",
+    historia: "«Entonces Cata, esto es por la hipertrofia braquial mediante reclutamiento sinérgico del complejo bíceps-braquial-braquiorradial.»",
+    img: "Fotos/valde-bicep.png",
   },
 
   // ====================== KPIs SOCIALES (Acto 3 · 20 slides) ======================
@@ -545,7 +545,7 @@ const DATA = {
     toleranciaLabel: "Nivel de tolerancia",
     curados: "??",
     curadosNote: "Curados / blackouts confirmados",
-    borracherasPorAnio: [["2019",0],["2020",0],["2021",0],["2022",0],["2023",0]],
+    borracherasPorAnio: [["2016",52],["2017",54],["2018",56],["2019",0],["2020",12],["2021",14],["2022",16],["2023",17],["2024",19],["2025",20]],
     topBorracheras: [
       ["[Borrachera legendaria #1]","[contexto: dónde, cómo terminó, cuántos tragos llevaba...]"],
       ["[Borrachera legendaria #2]","[contexto...]"],
@@ -655,10 +655,10 @@ const DATA = {
     ],
     // Crímenes contra la moda (galería — img vacía = placeholder)
     looks: [
-      {img:"", cap:"[Época del look #1]", desc:"[Descripción del crimen]"},
-      {img:"", cap:"[Época del look #2]", desc:"[Descripción del crimen]"},
-      {img:"", cap:"[Época del look #3]", desc:"[Descripción del crimen]"},
-      {img:"", cap:"[Época del look #4]", desc:"[Descripción del crimen]"},
+      {img:"Fotos/valde-tactica-pecho.jpeg",   cap:"El descuido sensual", desc:"Un botón de más, como quien no quiere la cosa."},
+      {img:"Fotos/valde-estilo-cowboy.jpeg",    cap:"El vaquero urbano",   desc:"Nunca montó nada, pero el sombrero manda."},
+      {img:"Fotos/valde-especimen-cama.jpeg",   cap:"Modo hibernación",    desc:"El look de domingo eterno."},
+      {img:"Fotos/valde-colegio-baldosa.jpeg",  cap:"La era colegio",      desc:"El origen de todos los crímenes."},
     ],
     // Certificaciones chistosas [título, detalle]
     certificaciones: [
@@ -1193,23 +1193,42 @@ slides.push(`<div class="slide">
 
 // Roast 4 · Evolución del activo físico (antes/después + gráfico de tendencia)
 slides.push((()=>{
-  const years=[2016,2017,2018,2019,2020,2021,2022,2023,2024,2025];
-  const bottoms=[85,79,72,63,58,49,40,33,24,15];   // estado físico: baja con los años
-  const n=years.length;
-  const pts=years.map((y,i)=>{
-    const left=6+i*(88/(n-1));
-    return `<span class="pt" style="left:${left}%;bottom:${bottoms[i]}%"></span>
-      <span style="position:absolute;left:${left}%;bottom:-32px;transform:translateX(-50%);font-size:14px;color:var(--muted)">${y}</span>`;
-  }).join('');
+  const years=[2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026];
+  const vals =[28,  46,  66,  84,  96,  91,  87,  83,  79,  75,  71]; // sube a peak 2020, baja leve
+  const n=years.length, W=1000,H=420,padL=72,padR=32,padT=34,padB=52;
+  const X=i=>padL+i*(W-padL-padR)/(n-1);
+  const Y=v=>padT+(100-v)/100*(H-padT-padB);
+  const base=H-padB;
+  const P=vals.map((v,i)=>[X(i),Y(v)]);
+  // Curva suavizada (Catmull-Rom -> Bézier)
+  let line=`M ${P[0][0].toFixed(1)} ${P[0][1].toFixed(1)}`;
+  for(let i=0;i<P.length-1;i++){
+    const p0=P[i-1]||P[i], p1=P[i], p2=P[i+1], p3=P[i+2]||P[i+1];
+    const c1x=p1[0]+(p2[0]-p0[0])/6, c1y=p1[1]+(p2[1]-p0[1])/6;
+    const c2x=p2[0]-(p3[0]-p1[0])/6, c2y=p2[1]-(p3[1]-p1[1])/6;
+    line+=` C ${c1x.toFixed(1)} ${c1y.toFixed(1)}, ${c2x.toFixed(1)} ${c2y.toFixed(1)}, ${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
+  }
+  const area=line+` L ${X(n-1).toFixed(1)} ${base} L ${X(0).toFixed(1)} ${base} Z`;
+  const dots=P.map(([px,py],i)=>`<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${i===4?7:5}" fill="${i===4?'#009739':'#c99700'}" stroke="#fff" stroke-width="2"/>`).join('');
+  const xlabels=years.map((y,i)=>`<text x="${X(i).toFixed(1)}" y="${base+28}" text-anchor="middle" font-size="15" fill="#54705e">${y}</text>`).join('');
+  const peak=`<text x="${X(4).toFixed(1)}" y="${(Y(vals[4])-16).toFixed(1)}" text-anchor="middle" font-size="16" font-weight="800" fill="#009739">peak 2020 🏆</text>`;
   return `<div class="slide">
     <div class="kicker warn">Análisis de activos</div>
     <h2>Evolución del activo físico</h2>
-    <div class="scatter" style="flex:1;margin:44px 90px 64px">
-      <span class="trend" style="bottom:auto;top:4%;width:118%;transform-origin:left;transform:rotate(27deg)"></span>
-      ${pts}
-      <span class="axis-y">Estado físico</span>
+    <div style="flex:1;display:flex;align-items:center;justify-content:center;margin-top:6px">
+      <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" style="width:94%;height:auto;max-height:58cqh">
+        <defs><linearGradient id="fisG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#009739" stop-opacity="0.26"/><stop offset="100%" stop-color="#009739" stop-opacity="0"/>
+        </linearGradient></defs>
+        <line x1="${padL}" y1="${padT}" x2="${padL}" y2="${base}" stroke="#d8e6db" stroke-width="2"/>
+        <line x1="${padL}" y1="${base}" x2="${W-padR}" y2="${base}" stroke="#d8e6db" stroke-width="2"/>
+        <path d="${area}" fill="url(#fisG)"/>
+        <path d="${line}" fill="none" stroke="#009739" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        ${dots}${peak}${xlabels}
+        <text x="22" y="${((padT+base)/2).toFixed(1)}" transform="rotate(-90 22 ${((padT+base)/2).toFixed(1)})" text-anchor="middle" font-size="15" fill="#54705e">Estado físico</text>
+      </svg>
     </div>
-    <p class="sub" style="font-size:19px;text-align:center;margin:0 auto">Correlación directa entre felicidad y kilos.<br><b>R² = 0,98</b> · estadísticamente irrefutable.</p>
+    <p class="sub" style="font-size:19px;text-align:center;margin:0 auto">Peak absoluto en 2020. Desde entonces, un declive lento pero digno. 📉🍺</p>
   </div>`;
 })());
 
@@ -1477,11 +1496,11 @@ slides.push(unidadNegocio('Unidad de negocio · Amigos','Amigos S.A.',[
   ['Mensajes sin responder','2.847','Récord histórico del grupo.'],
   ['Puntualidad a los panoramas','0%','"Voy saliendo" = 40 minutos.'],
 ],['Fotos/valde-grupo-abrazo.jpeg','Fotos/valde-grupo-guillotina.jpeg','Fotos/valde-carrete-vasos.jpeg']));
-slides.push(unidadNegocio('Unidad de negocio · Deportes','Deportes & Sillón',[
-  ['Deportes empezados','9','Terminados: 0.'],
-  ['Partidos vistos vs. jugados','500 / 3','Analista de sillón certificado.'],
-  ['Lesiones jugando taca-taca','4','Todas "graves".'],
-],['Fotos/valde-deporte-estadio.jpeg']));
+slides.push(`<div class="slide center">
+  <div class="kicker">Unidad de negocio · Deportes</div>
+  <h2>Antes fútbol, hoy pádel</h2>
+  <img src="Fotos/valde-futbol.png" style="max-height:60cqh;max-width:72%;object-fit:contain;border-radius:14px;box-shadow:0 12px 32px rgba(31,41,55,.18);margin-top:8px">
+</div>`);
 slides.push(unidadNegocio('Unidad de negocio · Hobbies','Hobbies & Lifestyle',[
   ['Hobbies declarados','12','Practicados este año: 1,5.'],
   ['Horas de "relajo" a la semana','38','Alto rendimiento en ocio.'],
@@ -1564,6 +1583,29 @@ slides.push(`<div class="slide center">
   <img src="Fotos/valde-record.png" style="max-height:66cqh;max-width:94%;object-fit:contain;border-radius:14px;box-shadow:0 12px 32px rgba(31,41,55,.18)">
 </div>`);
 
+// 74 · Correlación: asistencias de la Cata vs. campeonatos ganados (va tras Deportes)
+slides.push((()=>{
+  const xs=[2,5,8,11,14,17,20];          // asistencias de la Cata
+  const bottoms=[90,76,61,46,33,20,8];   // campeonatos ganados: bajan
+  const n=xs.length;
+  const pts=xs.map((x,i)=>{
+    const left=6+i*(88/(n-1));
+    return `<span class="pt" style="left:${left}%;bottom:${bottoms[i]}%"></span>
+      <span style="position:absolute;left:${left}%;bottom:-32px;transform:translateX(-50%);font-size:13px;color:var(--muted)">${x}</span>`;
+  }).join('');
+  return `<div class="slide">
+    <div class="kicker warn">Análisis de correlación</div>
+    <h2>Asistencias de la Cata vs. campeonatos ganados</h2>
+    <div class="scatter" style="flex:1;margin:40px 100px 78px">
+      <span class="trend" style="bottom:auto;top:4%;width:118%;transform-origin:left;transform:rotate(27deg)"></span>
+      ${pts}
+      <span class="axis-x" style="bottom:-58px">Veces que la Cata fue al estadio →</span>
+      <span class="axis-y">Campeonatos ganados</span>
+    </div>
+    <p class="sub" style="font-size:19px;text-align:center;margin:0 auto">Mientras más asistencias de la Cata, menos títulos. <b>R² = 0,97</b> · el amor cuesta caro. 🏆💔</p>
+  </div>`;
+})());
+
 // ===== REESTRUCTURACIÓN M&A — orden final por actos (índices del array original) =====
 // Acto1: 0-4 | Acto2: 5-9,Récords17,Cifras40 | Acto3: Amigos58,Deportes59,Apariencia28,Hobbies60,U&T61
 // Acto4: Auditoría24,27,31,35,36,32,30 | Acto5: 13,18,19,DueDiligence62
@@ -1571,10 +1613,10 @@ slides.push(`<div class="slide center">
 const ordenMA=[
   0,1,2,3,4,                 // Acto 1 · Apertura
   5,6,7,8,9,17,73,           // Acto 2 · Perfil de la empresa (17 Récords + 73 foto récord)
-  59,28,61,                  // Acto 3 · Unidades de Negocio
-  24,36,                     // Acto 4 · Auditoría 360° + Crímenes contra la moda
+  59,74,28,                  // Acto 3 · Unidades de Negocio (Deportes + correlación Cata + evolución física)
+  36,                        // Acto 4 · Crímenes contra la moda
   19,62,                     // Acto 5 · Cómo conoció a la novia + Due diligence
-  21,34,                     // Acto 6 · Borracheras por año + Curva de la noche
+  21,                        // Acto 6 · Borracheras por año
   42,                        // Acto 7 · Cláusulas del nuevo contrato
   44,45,63,46,               // Acto 8 · FODA, Resumen, Recomendación, Salud
   10,11,                     // Dinámica Smash
