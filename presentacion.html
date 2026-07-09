@@ -824,7 +824,7 @@ slides.push(`<div class="slide center">
 slides.push(`<div class="slide center">
   <div class="kicker good">Antes de empezar…</div>
   <h2>Un mensaje de [la novia] 💌</h2>
-  <video class="footage-vid" controls playsinline preload="metadata" src="Fotos/Novia/novia-mensaje-inicial.mp4" style="margin-top:20px"></video>
+  <video class="footage-vid" controls playsinline preload="metadata" src="Fotos/videos/mensaje-inicial-cata.mp4" style="margin-top:20px"></video>
 </div>`);
 
 slides.push(`<div class="slide center">
@@ -1525,6 +1525,44 @@ slides.push(`<div class="slide center">
   <div class="chip" style="margin-top:26px;font-weight:700">Operación aprobada por unanimidad ✅</div>
 </div>`);
 
+// ===== DINÁMICA CATA · ¿CUÁNTO CONOCÉS A VALDE? (pregunta + video respuesta) =====
+function slidePregunta(kicker,q,ops){
+  return `<div class="slide">
+    <div class="kicker">${kicker}</div>
+    <div class="quiz-q">${q}</div>
+    ${ops&&ops.length?`<div class="quiz-ops">
+      ${ops.map((o,k)=>`<div class="quiz-op frag"><span class="q-letter">${'ABCD'[k]}</span><span class="q-text">${o}</span></div>`).join('')}
+    </div>`:''}
+  </div>`;
+}
+function slideVideoResp(kicker,titulo,src){
+  return `<div class="slide center">
+    <div class="kicker good">${kicker}</div>
+    <h2>${titulo}</h2>
+    <video class="footage-vid" controls playsinline preload="metadata" src="${src}" style="margin-top:14px"></video>
+  </div>`;
+}
+// 64 · anime (pregunta) / 65 · video
+slides.push(slidePregunta('Pregunta 1 · ¿Cuánto conocés a Valde?','¿Cuál es el personaje de anime favorito de Valde?',
+  ['Goku','Vegeta','Naruto','Eren Yeager']));
+slides.push(slideVideoResp('La respuesta 🎬','Personaje de anime favorito','Fotos/videos/anime.mp4'));
+// 66 · puteada (pregunta) / 67 · video
+slides.push(slidePregunta('Pregunta 2 · ¿Cuánto conocés a Valde?','¿Cuál es la puteada típica de Valde?',
+  ['"¡Qué wea!"','"Puta el weón…"','"¡Ándate a la cresta!"','"Ya po, chúpalo"']));
+slides.push(slideVideoResp('La respuesta 🎬','La puteada típica','Fotos/videos/frase-tipica.mp4'));
+// 68 · paso (pregunta) / 69 · video
+slides.push(slidePregunta('Pregunta 3 · ¿Cuánto conocés a Valde?','¿Cuál es el paso típico de Valde en la pista?',
+  ['El trote lateral','El sprinkler','La lavadora','El taca-taca']));
+slides.push(slideVideoResp('La respuesta 🎬','El paso típico','Fotos/videos/paso-tipico.mp4'));
+// 70 · Kiss Marry Kill (sin alternativas) / 71 · video
+slides.push(`<div class="slide center">
+  <div class="kicker">Pregunta especial · sin alternativas 😳</div>
+  <div class="quiz-q" style="max-width:22ch">Kiss, Marry, Kill con los presentes… ¿a quién elige Valde?</div>
+</div>`);
+slides.push(slideVideoResp('La respuesta 🎬','Kiss · Marry · Kill','Fotos/videos/kiss-marry-kill.mp4'));
+// 72 · Desafío final (solo video, sin pregunta)
+slides.push(slideVideoResp('Desafío final 🏆','El desafío final','Fotos/videos/desafio-final.mp4'));
+
 // ===== REESTRUCTURACIÓN M&A — orden final por actos (índices del array original) =====
 // Acto1: 0-4 | Acto2: 5-9,Récords17,Cifras40 | Acto3: Amigos58,Deportes59,Apariencia28,Hobbies60,U&T61
 // Acto4: Auditoría24,27,31,35,36,32,30 | Acto5: 13,18,19,DueDiligence62
@@ -1538,7 +1576,8 @@ const ordenMA=[
   20,21,22,34,23,
   25,39,41,42,
   44,45,63,46,
-  10,11
+  10,11,
+  64,65,66,67,68,69,70,71,72
 ];
 const slidesMA=ordenMA.map(i=>slides[i]).filter(Boolean);
 
